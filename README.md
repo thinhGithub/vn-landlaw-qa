@@ -6,7 +6,6 @@ Hệ thống hỏi đáp và đối chiếu pháp luật đất đai Việt Nam 
 Tạo môi trường ảo
 
 ```bash
-cd pm25_sarima_project
 python -m venv .venv
 source .venv/bin/activate   # Linux/macOS
 # Hoặc: .venv\Scripts\activate   # Windows
