@@ -15,8 +15,8 @@ source .venv/bin/activate   # Linux/macOS
 
 ```text
 .
-|-- raw_doc/                    # DOCX pháp luật gốc (không chỉnh sửa)
 |-- data/
+|   |-- raw_doc/                # DOCX pháp luật gốc (không chỉnh sửa)
 |   |-- interim/                # Kết quả parse/trung gian để kiểm tra
 |   |-- processed/              # Chunks + metadata đã chuẩn hóa
 |   `-- samples/                # Tập dữ liệu nhỏ phục vụ test/demo
@@ -44,10 +44,19 @@ source .venv/bin/activate   # Linux/macOS
 Các thư mục `data/processed`, `indexes` và model cache nên đặt trên Google Drive
 khi chạy Colab; đường dẫn được khai báo trong `configs/paths.yaml`.
 
+## Chạy Milestone 1
+
+```bash
+python scripts/preprocess_m1.py
+```
+
+Mỗi DOCX tạo một file `.txt` sạch và một file `.stats.json` trong
+`data/processed/`. File `manifest.json` tổng hợp thống kê và log các dòng bị
+loại. Bước này chưa thực hiện parsing, chunking, embedding hoặc RAG.
+
 ## Luồng xử lý dự kiến
 
 ```text
 DOCX -> parse -> normalize -> adaptive chunking -> BM25 + FAISS
      -> hybrid retrieval -> fusion/reranking -> prompt -> local LLM
 ```
-

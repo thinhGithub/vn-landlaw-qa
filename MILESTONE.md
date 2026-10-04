@@ -8,7 +8,7 @@ GraphRAG hoặc Multi-Agent.
 
 | Milestone | Nội dung | Sản phẩm đầu ra | Trạng thái |
 |---|---|---|---|
-| M1 | Chuẩn hóa dữ liệu luật | Bộ dữ liệu gốc sạch | Chưa bắt đầu |
+| M1 | Chuẩn hóa dữ liệu luật | Bộ dữ liệu gốc sạch | Hoàn thành |
 | M2 | Legal Parsing & Chunking | `chunks.json` có cấu trúc | Chưa bắt đầu |
 | M3 | BM25 Retrieval Baseline | Keyword retrieval hoạt động | Chưa bắt đầu |
 | M4 | Vector Retrieval | Semantic search hoạt động | Chưa bắt đầu |
@@ -37,14 +37,14 @@ nếu có mà không làm thay đổi nội dung pháp lý.
 
 ### Công việc
 
-- [ ] Kiểm tra đủ bốn file trong `raw_doc/`.
-- [ ] Kiểm tra file có thể mở và đọc đầy đủ nội dung.
-- [ ] Đối chiếu số hiệu, tên văn bản và phạm vi nội dung.
-- [ ] Phát hiện header, footer, số trang, mục lục hoặc phần lặp không cần thiết.
-- [ ] Chuẩn hóa Unicode, khoảng trắng và ký tự đặc biệt.
-- [ ] Không sửa nội dung pháp lý của văn bản gốc.
-- [ ] Lưu dữ liệu đã làm sạch vào `data/interim/`.
-- [ ] Ghi log các thay đổi để có thể kiểm tra và tái lập.
+- [x] Kiểm tra đủ bốn file trong `data/raw_doc/`.
+- [x] Kiểm tra file có thể mở và đọc đầy đủ nội dung.
+- [x] Đối chiếu số hiệu, tên văn bản và phạm vi nội dung.
+- [x] Phát hiện header, footer, số trang hoặc phần lặp không cần thiết.
+- [x] Chuẩn hóa Unicode, khoảng trắng và ký tự đặc biệt.
+- [x] Không sửa nội dung pháp lý của văn bản gốc.
+- [x] Lưu dữ liệu đã làm sạch vào `data/processed/`.
+- [x] Ghi log các thay đổi để có thể kiểm tra và tái lập.
 
 ### Tiêu chí hoàn thành
 
@@ -326,4 +326,3 @@ Hoàn thiện tài liệu kiến trúc, pipeline, thực nghiệm và phân tíc
 - `Đang thực hiện`: đã bắt đầu nhưng chưa đạt đủ tiêu chí hoàn thành.
 - `Hoàn thành`: đạt tiêu chí hoàn thành và đã kiểm tra đầu ra.
 - `Tạm dừng`: chưa thể tiếp tục do phụ thuộc hoặc lỗi cần xử lý.
-

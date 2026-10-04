@@ -1,10 +1,9 @@
 # Có thể ghi đè root_dir bằng đường dẫn Google Drive trong Colab.
 root_dir: .
-raw_dir: raw_doc
+raw_dir: data/raw_doc
 interim_dir: data/interim
 processed_dir: data/processed
 bm25_index_dir: indexes/bm25
 faiss_index_dir: indexes/faiss
 index_metadata_dir: indexes/metadata
 artifacts_dir: artifacts
-
