@@ -1,0 +1,15 @@
+# Bổ sung và khóa phiên bản sau khi chốt từng module trên Google Colab.
+python-docx
+pyyaml
+rank-bm25
+faiss-cpu
+sentence-transformers
+transformers
+accelerate
+bitsandbytes
+torch
+numpy
+pandas
+tqdm
+pytest
+

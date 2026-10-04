@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Notebook
+.ipynb_checkpoints/
+
+# Generated data and indexes
+data/interim/*
+data/processed/*
+indexes/bm25/*
+indexes/faiss/*
+indexes/metadata/*
+artifacts/*
+
+# Keep directory placeholders
+!**/.gitkeep
+
+# Model/cache files
+models/
+cache/
+*.bin
+*.safetensors
+*.gguf
+
+# OS/editor/temp files
+.DS_Store
+Thumbs.db
+~$*.docx
+*.tmp
+
+# Secrets
+.env
+*.key
+
