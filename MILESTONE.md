@@ -270,14 +270,16 @@ trong M6 chỉ dùng để phân biệt các đoạn context nội bộ.
 
 ### Mục tiêu
 
-Sinh trích dẫn theo dạng `Luật – Điều – Khoản – Điểm` và hỗ trợ đối chiếu Luật
-Đất đai 2013 với Luật Đất đai 2024.
+Sinh trích dẫn theo cấu trúc pháp lý đầy đủ
+`Văn bản – Chương – Mục – Điều – Khoản – Điểm` và hỗ trợ đối chiếu Luật Đất
+đai 2013 với Luật Đất đai 2024. Thành phần không tồn tại trong văn bản hoặc
+không có trong metadata được lược bỏ khi hiển thị, không tự suy đoán.
 
 ### Đầu vào
 
 - Pipeline Local LLM RAG từ M6.
-- Top-k context và metadata `document_title`, `article`, `clause`, `point` từ
-  `chunks.json`.
+- Top-k context và metadata `document_title`, `chapter`, `section`, `article`,
+  `article_title`, `clause`, `point` từ `chunks.json`.
 - Kết quả retrieval được lọc theo từng văn bản khi chạy chế độ đối chiếu.
 - Câu hỏi người dùng và tín hiệu/chế độ yêu cầu đối chiếu 2013–2024.
 - Quy tắc định dạng và validation citation.
@@ -286,7 +288,8 @@ Sinh trích dẫn theo dạng `Luật – Điều – Khoản – Điểm` và h
 
 - [ ] Tạo citation từ metadata thay vì chỉ dựa vào nội dung LLM sinh ra.
 - [ ] Kiểm tra citation tồn tại trong context truy xuất.
-- [ ] Chuẩn hóa cách hiển thị tên và số hiệu văn bản.
+- [ ] Chuẩn hóa cách hiển thị tên/số hiệu văn bản, Chương, Mục, Điều, Khoản và
+  Điểm; chỉ hiển thị các cấp có trong metadata.
 - [ ] Phân loại yêu cầu hỏi đáp thông thường và yêu cầu đối chiếu.
 - [ ] Truy xuất evidence riêng cho văn bản năm 2013 và năm 2024.
 - [ ] Sinh bảng hoặc nội dung đối chiếu theo cùng chủ đề pháp lý.
@@ -296,7 +299,7 @@ Sinh trích dẫn theo dạng `Luật – Điều – Khoản – Điểm` và h
 ### Tiêu chí hoàn thành
 
 - Mỗi nhận định pháp lý quan trọng có citation hợp lệ.
-- Citation dẫn đúng văn bản, Điều, Khoản và Điểm khi có.
+- Citation dẫn đúng văn bản, Chương, Mục, Điều, Khoản và Điểm khi có.
 - Chế độ comparison không trộn lẫn quy định giữa hai phiên bản luật.
 
 ### Đầu ra
