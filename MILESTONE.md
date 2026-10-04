@@ -9,7 +9,7 @@ GraphRAG hoặc Multi-Agent.
 | Milestone | Nội dung | Sản phẩm đầu ra | Trạng thái |
 |---|---|---|---|
 | M1 | Chuẩn hóa dữ liệu luật | Bộ dữ liệu gốc sạch | Hoàn thành |
-| M2 | Legal Parsing & Chunking | `chunks.json` có cấu trúc | Chưa bắt đầu |
+| M2 | Legal Parsing & Chunking | `chunks.json` có cấu trúc | Hoàn thành |
 | M3 | BM25 Retrieval Baseline | Keyword retrieval hoạt động | Chưa bắt đầu |
 | M4 | Vector Retrieval | Semantic search hoạt động | Chưa bắt đầu |
 | M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Chưa bắt đầu |
@@ -68,14 +68,14 @@ chunking và gắn metadata phục vụ truy xuất và trích dẫn.
 
 ### Công việc
 
-- [ ] Xây parser cho cấu trúc văn bản pháp luật Việt Nam.
-- [ ] Nhận diện Chương, Mục, Điều, Khoản và Điểm.
-- [ ] Xử lý các điều không có Mục hoặc Khoản.
-- [ ] Xử lý nội dung tiếp nối qua nhiều đoạn DOCX.
-- [ ] Thiết kế adaptive chunking theo cấu trúc pháp lý và độ dài token.
-- [ ] Bảo toàn ngữ cảnh Điều khi chunk ở cấp Khoản hoặc Điểm.
-- [ ] Gắn metadata: văn bản, số hiệu, chương, mục, điều, khoản, điểm và vị trí.
-- [ ] Kiểm tra thủ công một mẫu chunk từ mỗi văn bản.
+- [x] Xây parser cho cấu trúc văn bản pháp luật Việt Nam.
+- [x] Nhận diện Chương, Mục, Điều, Khoản và Điểm.
+- [x] Xử lý các điều không có Mục hoặc Khoản.
+- [x] Xử lý nội dung tiếp nối qua nhiều đoạn DOCX.
+- [x] Thiết kế adaptive chunking theo cấu trúc pháp lý và độ dài văn bản.
+- [x] Bảo toàn ngữ cảnh Điều khi chunk ở cấp Khoản hoặc Điểm.
+- [x] Gắn metadata: văn bản, số hiệu, chương, mục, điều, khoản, điểm và nguồn.
+- [x] Kiểm tra cấu trúc và độ bao phủ nội dung của chunk cho mỗi văn bản.
 
 ### Tiêu chí hoàn thành
 

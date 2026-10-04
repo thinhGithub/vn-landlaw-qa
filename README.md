@@ -54,6 +54,17 @@ Mỗi DOCX tạo một file `.txt` sạch và một file `.stats.json` trong
 `data/processed/`. File `manifest.json` tổng hợp thống kê và log các dòng bị
 loại. Bước này chưa thực hiện parsing, chunking, embedding hoặc RAG.
 
+## Chạy Milestone 2
+
+```bash
+python scripts/process_m2.py
+```
+
+Kết quả gồm `structured_documents.json`, `chunks.json` và
+`parsing_report.json` trong `data/processed/`. Có thể điều chỉnh giới hạn gần
+đúng của chunk bằng `--max-chars`, ví dụ `--max-chars 2800`. Bước này chưa tạo
+embedding, BM25, FAISS hoặc retrieval.
+
 ## Luồng xử lý dự kiến
 
 ```text

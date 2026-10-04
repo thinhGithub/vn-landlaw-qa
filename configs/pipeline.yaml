@@ -2,6 +2,7 @@ chunking:
   strategy: adaptive_legal_structure
   preserve_article_context: true
   max_tokens: 512
+  max_chars: 3200
   overlap_tokens: 64
 
 retrieval:
@@ -16,4 +17,3 @@ generation:
   max_new_tokens: 768
   temperature: 0.1
   require_citations: true
-
