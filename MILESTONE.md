@@ -28,12 +28,15 @@ GraphRAG hoặc Multi-Agent.
 Đưa bốn văn bản DOCX vào project, kiểm tra nội dung và loại bỏ các phần thừa
 nếu có mà không làm thay đổi nội dung pháp lý.
 
-### Nguồn dữ liệu
+### Đầu vào
 
-- Luật số 45/2013/QH13.
-- Luật số 31/2024/QH15.
-- Luật số 43/2024/QH15.
-- Nghị quyết số 254/2025/QH15.
+- Bốn file DOCX gốc trong `data/raw_doc/`:
+  - Luật số 45/2013/QH13.
+  - Luật số 31/2024/QH15.
+  - Luật số 43/2024/QH15.
+  - Nghị quyết số 254/2025/QH15.
+- Cấu hình đường dẫn trong `configs/paths.yaml`.
+- Thư viện `python-docx` để đọc nội dung DOCX mà không chỉnh sửa file gốc.
 
 ### Công việc
 
@@ -66,6 +69,14 @@ nếu có mà không làm thay đổi nội dung pháp lý.
 Nhận diện cấu trúc `Chương → Mục → Điều → Khoản → Điểm`, thực hiện adaptive
 chunking và gắn metadata phục vụ truy xuất và trích dẫn.
 
+### Đầu vào
+
+- `data/processed/manifest.json` do M1 tạo, chứa danh sách văn bản và đường dẫn
+  đến file đã làm sạch.
+- Bốn file văn bản UTF-8 `data/processed/*.txt` do M1 tạo.
+- Các file `*.stats.json` của M1 để đối chiếu thống kê khi cần.
+- Cấu hình chunking trong `configs/pipeline.yaml`.
+
 ### Công việc
 
 - [x] Xây parser cho cấu trúc văn bản pháp luật Việt Nam.
@@ -88,6 +99,8 @@ chunking và gắn metadata phục vụ truy xuất và trích dẫn.
 
 **`chunks.json` có cấu trúc.**
 
+Ngoài ra còn có `structured_documents.json` và `parsing_report.json`.
+
 ---
 
 ## M3. BM25 Retrieval Baseline
@@ -95,6 +108,14 @@ chunking và gắn metadata phục vụ truy xuất và trích dẫn.
 ### Mục tiêu
 
 Xây dựng baseline tìm kiếm từ khóa trên các chunks pháp luật.
+
+### Đầu vào
+
+- `data/processed/chunks.json` từ M2, bao gồm nội dung chunk và metadata pháp lý.
+- `data/processed/parsing_report.json` để xác nhận dữ liệu đầu vào đã qua
+  validation.
+- Cấu hình BM25 như tokenizer, tham số `k1`, `b` và số lượng `top_k`.
+- Danh sách truy vấn thử nghiệm theo từ khóa, số hiệu văn bản, Điều và Khoản.
 
 ### Công việc
 
@@ -122,6 +143,13 @@ Xây dựng baseline tìm kiếm từ khóa trên các chunks pháp luật.
 ### Mục tiêu
 
 Tạo embedding cho các chunks và xây FAISS index để tìm kiếm theo ngữ nghĩa.
+
+### Đầu vào
+
+- `data/processed/chunks.json` từ M2.
+- Embedding model tiếng Việt hoặc multilingual tải từ nguồn miễn phí.
+- Cấu hình model, batch size, độ dài đầu vào, metric và `top_k`.
+- Môi trường Google Colab T4 và thư mục Google Drive để lưu embedding/index.
 
 ### Công việc
 
@@ -152,6 +180,14 @@ Tạo embedding cho các chunks và xây FAISS index để tìm kiếm theo ng�
 Kết hợp kết quả BM25 và Vector Retrieval, thực hiện fusion/reranking và trả về
 Top-k context tốt nhất.
 
+### Đầu vào
+
+- BM25 index và interface keyword retrieval từ M3.
+- FAISS index, embedding model và interface semantic retrieval từ M4.
+- `chunks.json` cùng ánh xạ `chunk_id`/metadata tương ứng với hai index.
+- Cấu hình fusion, trọng số, reranker và các mức `top_k`.
+- Tập truy vấn có relevance label để so sánh BM25, Vector và Hybrid.
+
 ### Công việc
 
 - [ ] Chuẩn hóa interface chung cho BM25 và Vector Retriever.
@@ -181,6 +217,15 @@ Top-k context tốt nhất.
 Load mô hình Qwen 7B/8B lượng tử hóa 4-bit trên Colab T4 và xây prompt từ
 Top-k context để trả lời dựa trên nguồn luật.
 
+### Đầu vào
+
+- Hybrid Retriever hoàn chỉnh từ M5.
+- Top-k chunks kèm nội dung, score và metadata pháp lý.
+- Checkpoint Qwen 7B/8B miễn phí và cấu hình quantization 4-bit.
+- Prompt template, giới hạn context, tham số generation và quy tắc từ chối khi
+  evidence không đủ.
+- Môi trường Google Colab T4 và Google Drive để lưu model cache/cấu hình.
+
 ### Công việc
 
 - [ ] Chọn checkpoint Qwen 7B/8B phù hợp giấy phép và tiếng Việt.
@@ -209,6 +254,15 @@ Top-k context để trả lời dựa trên nguồn luật.
 
 Sinh trích dẫn theo dạng `Luật – Điều – Khoản – Điểm` và hỗ trợ đối chiếu Luật
 Đất đai 2013 với Luật Đất đai 2024.
+
+### Đầu vào
+
+- Pipeline Local LLM RAG từ M6.
+- Top-k context và metadata `document_title`, `article`, `clause`, `point` từ
+  `chunks.json`.
+- Kết quả retrieval được lọc theo từng văn bản khi chạy chế độ đối chiếu.
+- Câu hỏi người dùng và tín hiệu/chế độ yêu cầu đối chiếu 2013–2024.
+- Quy tắc định dạng và validation citation.
 
 ### Công việc
 
@@ -240,6 +294,14 @@ Sinh trích dẫn theo dạng `Luật – Điều – Khoản – Điểm` và h
 Tạo bộ câu hỏi kiểm thử và đánh giá retrieval, trích dẫn, câu trả lời và hiệu
 năng hệ thống.
 
+### Đầu vào
+
+- Các pipeline BM25, Vector và Hybrid Retrieval từ M3–M5.
+- Pipeline QA, citation và legal comparison từ M6–M7.
+- Bộ câu hỏi đánh giá kèm đáp án, evidence, văn bản và Điều/Khoản chuẩn.
+- Cấu hình thí nghiệm cố định: model, index, `top_k`, seed và phần cứng.
+- Log score, citation, câu trả lời và latency của từng lần chạy.
+
 ### Công việc
 
 - [ ] Xây bộ câu hỏi theo nhiều chủ đề và độ khó.
@@ -269,6 +331,14 @@ năng hệ thống.
 
 Xây dựng Gradio UI cho phép nhập câu hỏi, xem câu trả lời và nguồn pháp luật.
 
+### Đầu vào
+
+- Pipeline hoàn chỉnh từ câu hỏi đến câu trả lời của M5–M7.
+- BM25/FAISS indexes, embedding model và local LLM đã kiểm tra.
+- Cấu hình đường dẫn Google Drive và tham số inference.
+- Thiết kế giao diện cho chế độ hỏi đáp, đối chiếu và hiển thị evidence.
+- Một số câu hỏi mẫu và kết quả đánh giá từ M8 để demo.
+
 ### Công việc
 
 - [ ] Tạo giao diện nhập câu hỏi.
@@ -296,6 +366,14 @@ Xây dựng Gradio UI cho phép nhập câu hỏi, xem câu trả lời và ngu�
 ### Mục tiêu
 
 Hoàn thiện tài liệu kiến trúc, pipeline, thực nghiệm và phân tích kết quả.
+
+### Đầu vào
+
+- Mô tả dữ liệu, source code, cấu hình và artifacts từ M1–M9.
+- Sơ đồ kiến trúc và pipeline của hệ thống.
+- Bảng thống kê parsing/chunking và bộ ảnh chụp Web Demo.
+- Kết quả đánh giá, latency và ablation BM25 vs Vector vs Hybrid từ M8.
+- Log thí nghiệm, bảng biểu, phân tích lỗi và các giới hạn đã ghi nhận.
 
 ### Công việc
 
