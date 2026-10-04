@@ -1,0 +1,8 @@
+# Milestone 6-7: local LLM và quantization 4-bit.
+# File này kế thừa retrieval vì RAG cần retriever hoàn chỉnh.
+-r retrieval.txt
+
+transformers
+accelerate
+bitsandbytes
+torch

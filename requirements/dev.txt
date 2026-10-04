@@ -1,0 +1,4 @@
+# Dependency phục vụ test và phát triển local.
+-r base.txt
+
+pytest

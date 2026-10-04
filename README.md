@@ -46,6 +46,15 @@ khi chạy Colab; đường dẫn được khai báo trong `configs/paths.yaml`.
 
 ## Chạy Milestone 1
 
+Tạo môi trường local và cài dependency tối thiểu cho M1–M2:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements/dev.txt
+```
+
 ```bash
 python scripts/preprocess_m1.py
 ```
@@ -64,6 +73,23 @@ Kết quả gồm `structured_documents.json`, `chunks.json` và
 `parsing_report.json` trong `data/processed/`. Có thể điều chỉnh giới hạn gần
 đúng của chunk bằng `--max-chars`, ví dụ `--max-chars 2800`. Bước này chưa tạo
 embedding, BM25, FAISS hoặc retrieval.
+
+## Chạy Milestone 3
+
+Build BM25 index và chạy các truy vấn mẫu:
+
+```powershell
+python scripts\run_m3.py --rebuild
+```
+
+Những lần sau có thể load index đã lưu mà không build lại:
+
+```powershell
+python scripts\run_m3.py --query "Khoản 2 Điều 57 Luật 45/2013/QH13" --top-k 5
+```
+
+Index được lưu tại `indexes/bm25/bm25_index.json.gz`. Tham số BM25, metadata
+boost và đường dẫn được cấu hình trong `configs/bm25.yaml`.
 
 ## Luồng xử lý dự kiến
 

@@ -1,0 +1,8 @@
+# Milestone 3-5: BM25, embeddings, FAISS và Hybrid Retrieval.
+-r base.txt
+
+faiss-cpu
+sentence-transformers
+numpy
+pandas
+tqdm

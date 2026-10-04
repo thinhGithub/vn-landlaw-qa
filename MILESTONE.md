@@ -10,7 +10,7 @@ GraphRAG hoặc Multi-Agent.
 |---|---|---|---|
 | M1 | Chuẩn hóa dữ liệu luật | Bộ dữ liệu gốc sạch | Hoàn thành |
 | M2 | Legal Parsing & Chunking | `chunks.json` có cấu trúc | Hoàn thành |
-| M3 | BM25 Retrieval Baseline | Keyword retrieval hoạt động | Chưa bắt đầu |
+| M3 | BM25 Retrieval Baseline | Keyword retrieval hoạt động | Hoàn thành |
 | M4 | Vector Retrieval | Semantic search hoạt động | Chưa bắt đầu |
 | M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Chưa bắt đầu |
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Chưa bắt đầu |
@@ -119,12 +119,12 @@ Xây dựng baseline tìm kiếm từ khóa trên các chunks pháp luật.
 
 ### Công việc
 
-- [ ] Tiền xử lý văn bản tiếng Việt cho BM25.
-- [ ] Xây và lưu BM25 index.
-- [ ] Cài đặt truy vấn Top-k.
-- [ ] Thử truy vấn theo từ khóa pháp lý.
-- [ ] Thử truy vấn trực tiếp theo Điều/Khoản/số hiệu văn bản.
-- [ ] Hiển thị score và metadata của kết quả.
+- [x] Tiền xử lý văn bản tiếng Việt cho BM25.
+- [x] Xây và lưu BM25 index.
+- [x] Cài đặt truy vấn Top-k.
+- [x] Thử truy vấn theo từ khóa pháp lý.
+- [x] Thử truy vấn trực tiếp theo Điều/Khoản/số hiệu văn bản.
+- [x] Hiển thị score và metadata của kết quả.
 
 ### Tiêu chí hoàn thành
 

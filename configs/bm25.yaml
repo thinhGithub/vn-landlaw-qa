@@ -1,0 +1,15 @@
+bm25:
+  k1: 1.5
+  b: 0.75
+  top_k: 5
+
+metadata_boost:
+  document: 4.0
+  article: 10.0
+  clause: 6.0
+  point: 3.0
+
+paths:
+  chunks: data/processed/chunks.json
+  parsing_report: data/processed/parsing_report.json
+  index: indexes/bm25/bm25_index.json.gz

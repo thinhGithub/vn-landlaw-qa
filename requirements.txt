@@ -1,15 +1,4 @@
-# Bổ sung và khóa phiên bản sau khi chốt từng module trên Google Colab.
-python-docx
-pyyaml
-rank-bm25
-faiss-cpu
-sentence-transformers
-transformers
-accelerate
-bitsandbytes
-torch
-numpy
-pandas
-tqdm
-pytest
-
+# Cài toàn bộ dependency của project.
+# Khi phát triển từng giai đoạn, nên cài file nhỏ hơn trong requirements/.
+-r requirements/generation.txt
+-r requirements/dev.txt
