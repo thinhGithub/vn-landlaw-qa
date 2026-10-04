@@ -270,41 +270,50 @@ trong M6 chỉ dùng để phân biệt các đoạn context nội bộ.
 
 ### Mục tiêu
 
-Sinh trích dẫn theo cấu trúc pháp lý đầy đủ
-`Văn bản – Chương – Mục – Điều – Khoản – Điểm` và hỗ trợ đối chiếu Luật Đất
-đai 2013 với Luật Đất đai 2024. Thành phần không tồn tại trong văn bản hoặc
-không có trong metadata được lược bỏ khi hiển thị, không tự suy đoán.
+Sinh citation trực tiếp từ metadata theo cấu trúc pháp lý
+`Văn bản → Chương → Mục → Điều → Khoản → Điểm`
+và hỗ trợ đối chiếu Luật Đất đai 2013 với Luật Đất đai 2024.
+
+Các thành phần không tồn tại trong văn bản hoặc không có trong metadata
+được lược bỏ khi hiển thị. Không suy đoán hoặc để LLM tự tạo citation.
 
 ### Đầu vào
 
 - Pipeline Local LLM RAG từ M6.
-- Top-k context và metadata `document_title`, `chapter`, `section`, `article`,
-  `article_title`, `clause`, `point` từ `chunks.json`.
-- Kết quả retrieval được lọc theo từng văn bản khi chạy chế độ đối chiếu.
-- Câu hỏi người dùng và tín hiệu/chế độ yêu cầu đối chiếu 2013–2024.
-- Quy tắc định dạng và validation citation.
+- Top-k context và metadata:
+  `document_title`, `document_id`, `chapter`, `section`,
+  `article`, `article_title`, `clause`, `point`
+  từ `chunks.json`.
+- Kết quả retrieval được tách theo từng phiên bản văn bản khi chạy comparison.
+- Câu hỏi người dùng và tín hiệu yêu cầu hỏi đáp thông thường hoặc đối chiếu 2013–2024.
+- Quy tắc format và validation citation.
 
 ### Công việc
-
-- [ ] Tạo citation từ metadata thay vì chỉ dựa vào nội dung LLM sinh ra.
-- [ ] Kiểm tra citation tồn tại trong context truy xuất.
-- [ ] Chuẩn hóa cách hiển thị tên/số hiệu văn bản, Chương, Mục, Điều, Khoản và
-  Điểm; chỉ hiển thị các cấp có trong metadata.
-- [ ] Phân loại yêu cầu hỏi đáp thông thường và yêu cầu đối chiếu.
-- [ ] Truy xuất evidence riêng cho văn bản năm 2013 và năm 2024.
-- [ ] Sinh bảng hoặc nội dung đối chiếu theo cùng chủ đề pháp lý.
-- [ ] Nêu rõ điểm giống, khác và nguồn của từng nhận định.
-- [ ] Xử lý trường hợp không tìm thấy quy định tương ứng.
+- [ ] Tạo citation trực tiếp từ metadata, không phụ thuộc vào citation do LLM sinh.
+- [ ] Kiểm tra citation phải tương ứng với evidence thực sự có trong context.
+- [ ] Chuẩn hóa cách hiển thị:
+  `Văn bản → Chương → Mục → Điều → Khoản → Điểm`;
+  chỉ hiển thị các cấp tồn tại.
+- [ ] Phân loại yêu cầu QA thông thường và yêu cầu comparison bằng rule-based logic đơn giản.
+- [ ] Khi comparison, truy xuất evidence riêng cho Luật 2013 và Luật 2024.
+- [ ] Đối chiếu theo cùng chủ đề/nội dung pháp lý, không giả định số Điều giữa hai phiên bản phải giống nhau.
+- [ ] Sinh bảng hoặc nội dung đối chiếu gồm quy định 2013, quy định 2024, điểm giống/khác và citation tương ứng.
+- [ ] Mỗi nhận định so sánh phải truy ngược được về evidence.
+- [ ]Nếu không tìm thấy quy định tương ứng ở một phiên bản, phải nêu rõ thay vì suy đoán.
 
 ### Tiêu chí hoàn thành
 
 - Mỗi nhận định pháp lý quan trọng có citation hợp lệ.
-- Citation dẫn đúng văn bản, Chương, Mục, Điều, Khoản và Điểm khi có.
-- Chế độ comparison không trộn lẫn quy định giữa hai phiên bản luật.
+- Citation được tạo từ metadata và dẫn đúng văn bản, Chương, Mục, Điều, Khoản và Điểm khi có.
+- Không xuất hiện citation không tồn tại trong evidence.
+- Chế độ comparison không trộn lẫn evidence giữa Luật 2013 và Luật 2024.
+- Mỗi điểm so sánh có thể truy ngược về nguồn của từng phiên bản.
+- Trường hợp không có quy định tương ứng được xử lý rõ ràng.
+
 
 ### Đầu ra
 
-**QA + citation + comparison.**
+**QA + validated citation + legal comparison.**
 
 ---
 
