@@ -1,0 +1,42 @@
+[
+  {
+    "document_id": "31-2024-QH15",
+    "chapters": 16,
+    "sections": 28,
+    "articles": 260,
+    "clauses": 1244,
+    "points": 1090,
+    "chunks": 573,
+    "warnings": []
+  },
+  {
+    "document_id": "43-2024-QH15",
+    "chapters": 0,
+    "sections": 0,
+    "articles": 5,
+    "clauses": 4,
+    "points": 0,
+    "chunks": 5,
+    "warnings": []
+  },
+  {
+    "document_id": "45-2013-QH13",
+    "chapters": 14,
+    "sections": 23,
+    "articles": 212,
+    "clauses": 782,
+    "points": 609,
+    "chunks": 299,
+    "warnings": []
+  },
+  {
+    "document_id": "254-2025-QH15",
+    "chapters": 3,
+    "sections": 0,
+    "articles": 13,
+    "clauses": 66,
+    "points": 73,
+    "chunks": 44,
+    "warnings": []
+  }
+]

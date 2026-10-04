@@ -10,13 +10,13 @@ venv/
 # Notebook
 .ipynb_checkpoints/
 
-# Generated data and indexes
-data/interim/*
-data/processed/*
-indexes/bm25/*
-indexes/faiss/*
-indexes/metadata/*
-artifacts/*
+# # Generated data and indexes
+# data/interim/*
+# data/processed/*
+# indexes/bm25/*
+# indexes/faiss/*
+# indexes/metadata/*
+# artifacts/*
 
 # Keep directory placeholders
 !**/.gitkeep
