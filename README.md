@@ -91,6 +91,30 @@ python scripts\run_m3.py --query "Khoản 2 Điều 57 Luật 45/2013/QH13" --to
 Index được lưu tại `indexes/bm25/bm25_index.json.gz`. Tham số BM25, metadata
 boost và đường dẫn được cấu hình trong `configs/bm25.yaml`.
 
+## Chạy Milestone 4 trên Colab T4
+
+Notebook [colab_notebook.ipynb](colab_notebook.ipynb) chứa quy trình đầy đủ để
+mount Drive, đồng bộ private repository, kiểm tra dữ liệu, chạy test, sinh
+embedding và thử semantic search.
+
+Chạy trực tiếp bằng CLI trên runtime có GPU:
+
+```bash
+python scripts/run_m4.py --rebuild --build-only --device cuda
+python scripts/run_m4.py --device cuda --top-k 5
+```
+
+Artifacts được lưu trong `indexes/faiss/`:
+
+- `faiss.index`: FAISS `IndexFlatIP`.
+- `embeddings.npy`: vector đã L2-normalize.
+- `vector_metadata.json`: ánh xạ `faiss_id` với chunk và metadata pháp lý.
+- `embedding_manifest.json`: model, checksum, dimension và benchmark build.
+
+Tham số model/batch/index nằm trong `configs/vector.yaml`. M4 dùng
+`intfloat/multilingual-e5-base` với prefix `query:`/`passage:` và cosine
+similarity. Hybrid fusion với BM25 chỉ được triển khai từ M5.
+
 ## Luồng xử lý dự kiến
 
 ```text

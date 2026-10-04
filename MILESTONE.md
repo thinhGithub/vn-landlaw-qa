@@ -11,7 +11,7 @@ GraphRAG hoặc Multi-Agent.
 | M1 | Chuẩn hóa dữ liệu luật | Bộ dữ liệu gốc sạch | Hoàn thành |
 | M2 | Legal Parsing & Chunking | `chunks.json` có cấu trúc | Hoàn thành |
 | M3 | BM25 Retrieval Baseline | Keyword retrieval hoạt động | Hoàn thành |
-| M4 | Vector Retrieval | Semantic search hoạt động | Chưa bắt đầu |
+| M4 | Vector Retrieval | Semantic search hoạt động | Đang thực hiện |
 | M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Chưa bắt đầu |
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Chưa bắt đầu |
 | M7 | Citation & Legal Comparison | QA + citation + comparison | Chưa bắt đầu |
@@ -153,12 +153,12 @@ Tạo embedding cho các chunks và xây FAISS index để tìm kiếm theo ng�
 
 ### Công việc
 
-- [ ] Chọn embedding model tiếng Việt hoặc multilingual phù hợp.
+- [x] Chọn embedding model tiếng Việt hoặc multilingual phù hợp.
 - [ ] Benchmark tốc độ và bộ nhớ trên Colab T4.
-- [ ] Sinh embedding theo batch.
-- [ ] Chuẩn hóa vector theo metric đã chọn.
-- [ ] Xây và lưu FAISS index.
-- [ ] Lưu ánh xạ FAISS ID với chunk ID và metadata.
+- [x] Cài đặt sinh embedding theo batch.
+- [x] Cài đặt chuẩn hóa vector theo cosine similarity.
+- [x] Cài đặt xây và lưu FAISS index.
+- [x] Cài đặt ánh xạ FAISS ID với chunk ID và metadata.
 - [ ] Thử các truy vấn diễn đạt khác với từ ngữ trong luật.
 
 ### Tiêu chí hoàn thành
