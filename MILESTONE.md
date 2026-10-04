@@ -14,10 +14,10 @@ GraphRAG hoặc Multi-Agent.
 | M4 | Vector Retrieval | Semantic search hoạt động | Hoàn thành |
 | M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Hoàn thành |
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Hoàn thành |
-| M7 | Citation & Legal Comparison | QA + citation + comparison | Chưa bắt đầu |
-| M8 | Evaluation | Bảng đánh giá hệ thống | Chưa bắt đầu |
-| M9 | Web Demo | Demo hoàn chỉnh | Chưa bắt đầu |
-| M10 | Hoàn thiện báo cáo | Báo cáo + kết quả thực nghiệm | Chưa bắt đầu |
+| M7 | Citation & Source Validation | QA + validated legal citations | Chưa bắt đầu |
+| M8 | Legal Comparison | Legal comparison with validated citations | Chưa bắt đầu |
+| M9 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
+| M10 | Web Demo | End-to-end Web Demo | Chưa bắt đầu |
 
 ---
 
@@ -266,165 +266,275 @@ trong M6 chỉ dùng để phân biệt các đoạn context nội bộ.
 
 ---
 
-## M7. Citation & Legal Comparison
+## M7. Citation & Source Validation
 
 ### Mục tiêu
 
-Sinh citation trực tiếp từ metadata theo cấu trúc pháp lý
+Bổ sung citation pháp lý có cấu trúc cho câu trả lời của pipeline RAG.
+
+Citation phải được sinh **deterministic từ metadata của retrieved evidence**, không để LLM tự tạo hoặc tự suy đoán citation.
+
+Citation phải có khả năng biểu diễn cấu trúc:
+
 `Văn bản → Chương → Mục → Điều → Khoản → Điểm`
-và hỗ trợ đối chiếu Luật Đất đai 2013 với Luật Đất đai 2024.
 
-Các thành phần không tồn tại trong văn bản hoặc không có trong metadata
-được lược bỏ khi hiển thị. Không suy đoán hoặc để LLM tự tạo citation.
+Chỉ hiển thị những cấp thực sự tồn tại trong metadata.
 
 ### Đầu vào
 
-- Pipeline Local LLM RAG từ M6.
-- Top-k context và metadata:
-  `document_title`, `document_id`, `chapter`, `section`,
-  `article`, `article_title`, `clause`, `point`
-  từ `chunks.json`.
-- Kết quả retrieval được tách theo từng phiên bản văn bản khi chạy comparison.
-- Câu hỏi người dùng và tín hiệu yêu cầu hỏi đáp thông thường hoặc đối chiếu 2013–2024.
-- Quy tắc format và validation citation.
+- Pipeline Local LLM RAG hoàn chỉnh từ M6.
+- Retrieved context/evidence từ Hybrid Retriever.
+- Metadata của từng chunk, bao gồm nếu có:
+  - `document_title`
+  - `document_id`
+  - `chapter`
+  - `section`
+  - `article`
+  - `article_title`
+  - `clause`
+  - `point`
+  - `chunk_id`
+- Câu trả lời generated từ Local LLM.
+- Quy tắc format citation.
 
 ### Công việc
-- [ ] Tạo citation trực tiếp từ metadata, không phụ thuộc vào citation do LLM sinh.
-- [ ] Kiểm tra citation phải tương ứng với evidence thực sự có trong context.
-- [ ] Chuẩn hóa cách hiển thị:
-  `Văn bản → Chương → Mục → Điều → Khoản → Điểm`;
-  chỉ hiển thị các cấp tồn tại.
-- [ ] Phân loại yêu cầu QA thông thường và yêu cầu comparison bằng rule-based logic đơn giản.
-- [ ] Khi comparison, truy xuất evidence riêng cho Luật 2013 và Luật 2024.
-- [ ] Đối chiếu theo cùng chủ đề/nội dung pháp lý, không giả định số Điều giữa hai phiên bản phải giống nhau.
-- [ ] Sinh bảng hoặc nội dung đối chiếu gồm quy định 2013, quy định 2024, điểm giống/khác và citation tương ứng.
-- [ ] Mỗi nhận định so sánh phải truy ngược được về evidence.
-- [ ]Nếu không tìm thấy quy định tương ứng ở một phiên bản, phải nêu rõ thay vì suy đoán.
+- [ ] Xây citation formatter từ metadata.
+- [ ] Citation không được lấy từ text do LLM tự sinh.
+- [ ] Chuẩn hóa format citation:
+  `Văn bản → Chương → Mục → Điều → Khoản → Điểm`.
+- [ ] Tự động bỏ qua các cấp metadata không tồn tại.
+- [ ] Liên kết citation với đúng evidence/chunk đã được đưa vào context.
+- [ ] Không cho phép citation tới chunk không xuất hiện trong evidence của câu hỏi.
+- [ ] Loại citation trùng lặp.
+- [ ] Giữ thứ tự citation ổn định và dễ kiểm tra.
+- [ ] Xử lý metadata thiếu hoặc malformed.
+- [ ] Thêm unit test cho citation formatter và source validation.
+- [ ] Kiểm thử trên câu hỏi luật hiện hành và câu hỏi Luật Đất đai 2013.
 
 ### Tiêu chí hoàn thành
 
-- Mỗi nhận định pháp lý quan trọng có citation hợp lệ.
-- Citation được tạo từ metadata và dẫn đúng văn bản, Chương, Mục, Điều, Khoản và Điểm khi có.
-- Không xuất hiện citation không tồn tại trong evidence.
-- Chế độ comparison không trộn lẫn evidence giữa Luật 2013 và Luật 2024.
-- Mỗi điểm so sánh có thể truy ngược về nguồn của từng phiên bản.
-- Trường hợp không có quy định tương ứng được xử lý rõ ràng.
-
+- Mỗi citation được sinh trực tiếp từ metadata.
+- Citation truy ngược được tới đúng `chunk_id` và văn bản gốc.
+- Không xuất hiện Điều/Khoản/Điểm không tồn tại trong evidence.
+- Không để LLM tự tạo nguồn.
+- Các cấp metadata không tồn tại được bỏ qua thay vì suy đoán.
+- Citation format nhất quán giữa các câu hỏi.
+- Unit test cho citation/source validation chạy thành công.
 
 ### Đầu ra
 
-**QA + validated citation + legal comparison.**
+**QA + validated legal citations.**
 
 ---
 
-## M8. Evaluation
+## M8. Legal Comparison
 
 ### Mục tiêu
 
-Tạo bộ câu hỏi kiểm thử và đánh giá retrieval, trích dẫn, câu trả lời và hiệu
-năng hệ thống.
+Mở rộng hệ thống để hỗ trợ đối chiếu quy định giữa:
+
+- Luật Đất đai 2013.
+- Luật Đất đai 2024 và các văn bản thuộc phạm vi dữ liệu hiện hành.
+
+Comparison phải dựa trên evidence được retrieve riêng cho từng phiên bản luật và sử dụng citation validation từ M7.
+
+Không giả định rằng cùng một nội dung pháp lý sẽ nằm ở cùng số Điều giữa hai phiên bản.
 
 ### Đầu vào
 
-- Các pipeline BM25, Vector và Hybrid Retrieval từ M3–M5.
-- Pipeline QA, citation và legal comparison từ M6–M7.
-- Bộ câu hỏi đánh giá kèm đáp án, evidence, văn bản và Điều/Khoản chuẩn.
-- Cấu hình thí nghiệm cố định: model, index, `top_k`, seed và phần cứng.
-- Log score, citation, câu trả lời và latency của từng lần chạy.
+- Pipeline RAG từ M6.
+- Citation & Source Validation từ M7.
+- Hybrid Retriever từ M5.
+- Metadata về phiên bản/năm/số hiệu văn bản.
+- Query của người dùng.
+- Evidence tách riêng cho Luật 2013 và hệ thống luật hiện hành.
 
 ### Công việc
 
-- [ ] Xây bộ câu hỏi theo nhiều chủ đề và độ khó.
-- [ ] Gắn đáp án chuẩn và evidence chuẩn cho từng câu hỏi.
-- [ ] Có nhóm câu hỏi từ khóa, ngữ nghĩa, Điều/Khoản và đối chiếu.
-- [ ] Đo Recall@K cho BM25, Vector và Hybrid Retrieval.
-- [ ] Đo citation accuracy.
-- [ ] Đánh giá correctness/faithfulness của câu trả lời.
-- [ ] Đo retrieval latency, generation latency và total latency.
-- [ ] Ghi lại cấu hình model/index của mỗi lần đánh giá.
+- [ ] Xây rule-based intent detection để phân biệt:
+  - QA thông thường.
+  - Legal comparison.
+- [ ] Nhận diện các query có ý định như:
+  - so sánh,
+  - khác nhau,
+  - thay đổi,
+  - trước đây,
+  - hiện nay,
+  - 2013,
+  - 2024.
+- [ ] Khi comparison, retrieve evidence của Luật 2013 riêng.
+- [ ] Retrieve evidence của Luật 2024/hiện hành riêng.
+- [ ] Không trộn evidence của hai phiên bản trước bước comparison.
+- [ ] Đối chiếu theo cùng chủ đề/nội dung pháp lý.
+- [ ] Không map Điều 2013 sang Điều 2024 chỉ dựa trên số Điều.
+- [ ] Xây structured comparison context cho LLM.
+- [ ] Prompt LLM sinh kết quả gồm:
+  - Quy định năm 2013.
+  - Quy định năm 2024/hiện hành.
+  - Điểm giống.
+  - Điểm khác hoặc thay đổi.
+  - Citation tương ứng cho từng phía.
+- [ ] Mỗi nhận định comparison phải truy ngược được về evidence.
+- [ ] Nếu một phía không tìm được evidence phù hợp, phải nêu rõ:
+  `Chưa tìm thấy quy định tương ứng trong dữ liệu truy xuất.`
+- [ ] Không cho phép LLM tự suy đoán sự thay đổi pháp luật khi evidence không đủ.
+- [ ] Viết test cho comparison routing, version isolation và evidence mapping.
 
 ### Tiêu chí hoàn thành
 
-- Bộ test có định dạng và hướng dẫn đánh giá rõ ràng.
-- Kết quả có thể tái lập từ cùng cấu hình.
-- Có bảng so sánh giữa các cấu hình hệ thống.
+- Hệ thống nhận diện được QA thông thường và comparison query.
+- Evidence của Luật 2013 và 2024 được retrieve và quản lý riêng biệt.
+- Không trộn nguồn giữa hai phiên bản.
+- Mỗi nhận định so sánh có citation tương ứng.
+- Citation sử dụng cơ chế validation từ M7.
+- Không giả định số Điều giữa hai luật phải tương ứng.
+- Hệ thống xử lý rõ trường hợp thiếu evidence một phía.
+- Comparison có thể truy vết từ output về retrieved chunks.
 
 ### Đầu ra
 
-**Bảng đánh giá hệ thống.**
+**Legal comparison with validated citations.**
 
 ---
 
-## M9. Web Demo
+## M9. Evaluation
 
 ### Mục tiêu
 
-Xây dựng Gradio UI cho phép nhập câu hỏi, xem câu trả lời và nguồn pháp luật.
+Đánh giá định lượng và định tính toàn bộ hệ thống từ retrieval đến generation, citation và legal comparison.
+
+Đồng thời thực hiện ablation giữa:
+
+- BM25 Retrieval.
+- Vector Retrieval.
+- Hybrid Retrieval.
 
 ### Đầu vào
 
-- Pipeline hoàn chỉnh từ câu hỏi đến câu trả lời của M5–M7.
-- BM25/FAISS indexes, embedding model và local LLM đã kiểm tra.
-- Cấu hình đường dẫn Google Drive và tham số inference.
-- Thiết kế giao diện cho chế độ hỏi đáp, đối chiếu và hiển thị evidence.
-- Một số câu hỏi mẫu và kết quả đánh giá từ M8 để demo.
+- BM25 Retriever từ M3.
+- Vector Retriever từ M4.
+- Hybrid Retriever từ M5.
+- Local LLM RAG từ M6.
+- Citation pipeline từ M7.
+- Legal Comparison từ M8.
+- Bộ câu hỏi evaluation có ground truth/evidence chuẩn.
+- Cấu hình cố định của model/index/retrieval.
 
 ### Công việc
 
-- [ ] Tạo giao diện nhập câu hỏi.
-- [ ] Thêm chế độ hỏi đáp và đối chiếu.
-- [ ] Hiển thị câu trả lời có citation.
-- [ ] Hiển thị Top-k nguồn, score và nội dung liên quan.
-- [ ] Hiển thị trạng thái xử lý và thời gian phản hồi.
-- [ ] Xử lý lỗi khi model/index chưa được tải.
-- [ ] Chuẩn bị notebook chạy demo trên Colab.
+- [ ] Xây evaluation dataset theo nhiều nhóm câu hỏi:
+  - keyword query,
+  - semantic query,
+  - Điều/Khoản cụ thể,
+  - QA luật hiện hành,
+  - QA Luật Đất đai 2013,
+  - comparison 2013–2024,
+  - insufficient-evidence query.
+- [ ] Gắn relevant chunks/evidence chuẩn cho từng câu hỏi.
+- [ ] Đo Retrieval Recall@K.
+- [ ] Có thể bổ sung Precision@K hoặc MRR nếu phù hợp.
+- [ ] So sánh:
+  - BM25,
+  - Vector,
+  - Hybrid.
+- [ ] Đo citation accuracy/source accuracy.
+- [ ] Kiểm tra citation hallucination rate nếu cần.
+- [ ] Đánh giá answer correctness.
+- [ ] Đánh giá faithfulness/groundedness.
+- [ ] Đánh giá comparison correctness.
+- [ ] Kiểm tra version isolation giữa 2013 và 2024.
+- [ ] Đo:
+  - retrieval latency,
+  - generation latency,
+  - total latency.
+- [ ] Ghi cấu hình của từng experiment:
+  - embedding model,
+  - LLM,
+  - quantization,
+  - top_k,
+  - fusion parameters,
+  - hardware,
+  - seed nếu có.
+- [ ] Sinh bảng kết quả phục vụ báo cáo.
 
 ### Tiêu chí hoàn thành
 
-- Người dùng có thể thực hiện luồng hỏi đáp từ đầu đến cuối.
-- Citation và evidence dễ kiểm tra trên giao diện.
-- Demo chạy được trên Google Colab T4.
+- Có evaluation dataset rõ ràng và có thể tái lập.
+- Có metric retrieval cho BM25, Vector và Hybrid.
+- Có metric citation.
+- Có đánh giá answer correctness/faithfulness.
+- Có đánh giá legal comparison.
+- Có số liệu latency.
+- Có bảng so sánh/ablation giữa các cấu hình retrieval.
+- Kết quả có thể chạy lại với cùng cấu hình.
 
 ### Đầu ra
 
-**Demo hoàn chỉnh.**
+**Evaluation results + ablation tables + system metrics.**
 
 ---
 
-## M10. Hoàn thiện báo cáo
+## M10. Web Demo
 
 ### Mục tiêu
 
-Hoàn thiện tài liệu kiến trúc, pipeline, thực nghiệm và phân tích kết quả.
+Xây dựng giao diện demo end-to-end cho toàn bộ hệ thống Hybrid RAG pháp luật đất đai.
+
+Sử dụng Gradio và chạy được trên Google Colab T4.
 
 ### Đầu vào
 
-- Mô tả dữ liệu, source code, cấu hình và artifacts từ M1–M9.
-- Sơ đồ kiến trúc và pipeline của hệ thống.
-- Bảng thống kê parsing/chunking và bộ ảnh chụp Web Demo.
-- Kết quả đánh giá, latency và ablation BM25 vs Vector vs Hybrid từ M8.
-- Log thí nghiệm, bảng biểu, phân tích lỗi và các giới hạn đã ghi nhận.
+- Hybrid Retrieval từ M5.
+- Local LLM RAG từ M6.
+- Citation & Source Validation từ M7.
+- Legal Comparison từ M8.
+- Kết quả/configuration tốt nhất từ M9.
+- BM25/FAISS index.
+- Embedding model.
+- Local Qwen model.
+- Google Drive paths/config.
 
 ### Công việc
 
-- [ ] Mô tả bài toán và phạm vi nghiên cứu.
-- [ ] Trình bày dữ liệu và quá trình chuẩn hóa.
-- [ ] Trình bày kiến trúc và pipeline hệ thống.
-- [ ] Giải thích lựa chọn chunking, embedding, fusion và reranking.
-- [ ] Thực hiện ablation: BM25 vs Vector vs Hybrid.
-- [ ] Báo cáo chất lượng retrieval, citation, answer và latency.
-- [ ] Phân tích lỗi và giới hạn của hệ thống.
-- [ ] Nêu hướng phát triển sau giai đoạn Hybrid RAG.
+- [ ] Tạo Gradio UI.
+- [ ] Có ô nhập câu hỏi.
+- [ ] Có chế độ:
+  - QA thông thường.
+  - Legal Comparison.
+- [ ] Có thể tự động detect comparison nếu pipeline đã hỗ trợ.
+- [ ] Hiển thị câu trả lời.
+- [ ] Hiển thị validated citations.
+- [ ] Hiển thị danh sách evidence/source.
+- [ ] Cho phép xem metadata:
+  - văn bản,
+  - Điều,
+  - Khoản,
+  - Điểm,
+  - chunk_id.
+- [ ] Có thể hiển thị retrieval score/rank nếu cần cho demo/debug.
+- [ ] Với comparison, hiển thị rõ hai phía:
+  - Luật 2013.
+  - Luật 2024/hiện hành.
+- [ ] Hiển thị phần giống/khác hoặc thay đổi.
+- [ ] Hiển thị retrieval latency, generation latency và total latency.
+- [ ] Xử lý lỗi khi index/model chưa được load.
+- [ ] Có một số sample questions.
+- [ ] Tạo notebook/script chạy demo trên Google Colab T4.
 
 ### Tiêu chí hoàn thành
 
-- Báo cáo có đầy đủ kiến trúc, phương pháp, thiết lập và kết quả thực nghiệm.
-- Các bảng/biểu đồ có thể truy ngược về dữ liệu đánh giá.
-- Kết luận phản ánh đúng kết quả, không vượt quá bằng chứng thực nghiệm.
+- Người dùng có thể thực hiện end-to-end:
+  `Question → Retrieval → Generation → Citation → Result`.
+- QA thông thường hoạt động.
+- Legal comparison hoạt động.
+- Citation và evidence dễ kiểm tra.
+- Không trộn phiên bản luật trong UI.
+- Demo chạy ổn định trên Google Colab T4.
+- Có thể sử dụng các câu hỏi evaluation từ M9 để demo.
 
 ### Đầu ra
 
-**Báo cáo và kết quả thực nghiệm.**
+**End-to-end Web Demo.**
 
 ---
 
