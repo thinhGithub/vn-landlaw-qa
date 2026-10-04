@@ -3,6 +3,7 @@
 Hệ thống hỏi đáp và đối chiếu pháp luật đất đai Việt Nam sử dụng Hybrid RAG.
 
 ## Cài đặt venv
+
 Tạo môi trường ảo
 
 ```bash
@@ -93,7 +94,7 @@ boost và đường dẫn được cấu hình trong `configs/bm25.yaml`.
 
 ## Chạy Milestone 4 trên Colab T4
 
-Notebook [colab_notebook.ipynb](colab_notebook.ipynb) chứa quy trình đầy đủ để
+Notebook [colab_notebook_milestone4.ipynb](colab_notebook_milestone4.ipynb) chứa quy trình đầy đủ để
 mount Drive, đồng bộ private repository, kiểm tra dữ liệu, chạy test, sinh
 embedding và thử semantic search.
 
@@ -115,9 +116,66 @@ Tham số model/batch/index nằm trong `configs/vector.yaml`. M4 dùng
 `intfloat/multilingual-e5-base` với prefix `query:`/`passage:` và cosine
 similarity. Hybrid fusion với BM25 chỉ được triển khai từ M5.
 
-## Luồng xử lý dự kiến
+## Chạy Milestone 5 — Hybrid Retrieval
+
+Notebook [05_hybrid_retrieval.ipynb](05_hybrid_retrieval.ipynb) tải lại BM25 và
+FAISS index đã có, sau đó hợp nhất hai danh sách kết quả bằng Reciprocal Rank
+Fusion (RRF). Kết quả được khử trùng theo `chunk_id`, giữ score của từng
+retriever và ưu tiên phiên bản luật phù hợp với câu hỏi.
+
+Các thành phần chính nằm trong `src/landlaw_rag/retrieval/`:
+
+- `BM25Retriever` và `VectorRetriever` dùng chung interface `search()`.
+- `HybridRetriever` lấy Top-N từ hai retriever và hợp nhất bằng RRF.
+- Query không chỉ định năm ưu tiên Luật 31/2024/QH15 và văn bản sửa đổi, bổ
+  sung; query nêu năm 2013 ưu tiên Luật 45/2013/QH13.
+- Query so sánh cho phép giữ evidence của cả hai phiên bản.
+
+## Chạy Milestone 6 — Local LLM RAG
+
+Notebook [06_local_llm_rag.ipynb](06_local_llm_rag.ipynb) chạy pipeline:
+
+```text
+query -> Hybrid Retrieval -> version isolation -> context expansion
+      -> grounded prompt -> Qwen2.5-7B-Instruct 4-bit -> answer
+```
+
+M6 sử dụng `Qwen/Qwen2.5-7B-Instruct`, quantization NF4 4-bit và được thiết kế
+để chạy trên Google Colab T4. Cài dependency bằng:
+
+```bash
+python -m pip install -r requirements/generation.txt
+```
+
+Các cơ chế kiểm soát evidence:
+
+- Chỉ trả lời từ evidence được truy xuất; không tự bổ sung ví dụ, điều kiện hay
+  căn cứ pháp lý.
+- Chỉ chọn evidence đúng chủ thể, hành vi, đối tượng và phạm vi câu hỏi.
+- Tách biệt quy định hiện hành và Luật Đất đai 2013 theo ý định của query.
+- Khi nhiều hit thuộc cùng một Điều, bổ sung các Khoản/Điểm cùng Điều trong giới
+  hạn token; không mở rộng sang văn bản hoặc Điều khác.
+- Context giữ cấu trúc `Văn bản → Chương/Mục → Điều → Khoản/Điểm → nội dung`.
+- Nếu evidence không đủ, trả lời: `Chưa đủ căn cứ trong dữ liệu truy xuất.`
+- Generation dùng `do_sample=False`; notebook ghi nhận token, latency và VRAM.
+
+Sau khi thay đổi code trong `src/`, cần restart runtime hoặc reload module trong
+Colab trước khi chạy lại notebook.
+
+Chạy unit test cho prompt, version isolation và context expansion:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m pytest tests\test_rag_generation.py -q
+```
+
+## Luồng xử lý hiện tại
 
 ```text
 DOCX -> parse -> normalize -> adaptive chunking -> BM25 + FAISS
-     -> hybrid retrieval -> fusion/reranking -> prompt -> local LLM
+     -> hybrid retrieval (RRF) -> version isolation -> context expansion
+     -> grounded prompt -> local LLM
 ```
+
+M1–M6 đã hoàn thành. Citation chuẩn hóa và đối chiếu pháp lý có kiểm chứng là
+phạm vi của M7.

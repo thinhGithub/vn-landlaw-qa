@@ -11,9 +11,9 @@ GraphRAG hoặc Multi-Agent.
 | M1 | Chuẩn hóa dữ liệu luật | Bộ dữ liệu gốc sạch | Hoàn thành |
 | M2 | Legal Parsing & Chunking | `chunks.json` có cấu trúc | Hoàn thành |
 | M3 | BM25 Retrieval Baseline | Keyword retrieval hoạt động | Hoàn thành |
-| M4 | Vector Retrieval | Semantic search hoạt động | Đang thực hiện |
-| M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Chưa bắt đầu |
-| M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Chưa bắt đầu |
+| M4 | Vector Retrieval | Semantic search hoạt động | Hoàn thành |
+| M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Hoàn thành |
+| M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Hoàn thành |
 | M7 | Citation & Legal Comparison | QA + citation + comparison | Chưa bắt đầu |
 | M8 | Evaluation | Bảng đánh giá hệ thống | Chưa bắt đầu |
 | M9 | Web Demo | Demo hoàn chỉnh | Chưa bắt đầu |
@@ -154,12 +154,12 @@ Tạo embedding cho các chunks và xây FAISS index để tìm kiếm theo ng�
 ### Công việc
 
 - [x] Chọn embedding model tiếng Việt hoặc multilingual phù hợp.
-- [ ] Benchmark tốc độ và bộ nhớ trên Colab T4.
+- [x] Benchmark tốc độ và bộ nhớ trên Colab T4.
 - [x] Cài đặt sinh embedding theo batch.
 - [x] Cài đặt chuẩn hóa vector theo cosine similarity.
 - [x] Cài đặt xây và lưu FAISS index.
 - [x] Cài đặt ánh xạ FAISS ID với chunk ID và metadata.
-- [ ] Thử các truy vấn diễn đạt khác với từ ngữ trong luật.
+- [x] Thử các truy vấn diễn đạt khác với từ ngữ trong luật.
 
 ### Tiêu chí hoàn thành
 
@@ -190,13 +190,13 @@ Top-k context tốt nhất.
 
 ### Công việc
 
-- [ ] Chuẩn hóa interface chung cho BM25 và Vector Retriever.
-- [ ] Kết hợp hai danh sách kết quả bằng fusion, ưu tiên RRF làm baseline.
-- [ ] Thử weighted score fusion nếu cần.
-- [ ] Bổ sung reranker miễn phí, phù hợp tài nguyên Colab.
-- [ ] Loại chunk trùng lặp hoặc quá tương đồng.
-- [ ] Ưu tiên khớp chính xác khi câu hỏi chứa số Điều/Khoản/văn bản.
-- [ ] Cấu hình Top-k riêng cho retrieval, reranking và generation.
+- [x] Chuẩn hóa interface chung cho BM25 và Vector Retriever.
+- [x] Kết hợp hai danh sách kết quả bằng Reciprocal Rank Fusion (RRF).
+- [x] Khử chunk trùng theo `chunk_id` và giữ score/rank theo từng retriever.
+- [x] Ưu tiên phiên bản luật theo năm, số hiệu văn bản và ý định query.
+- [x] Giữ evidence của cả hai phiên bản đối với query so sánh.
+- [x] Cấu hình Top-N cho từng retriever và Top-k cuối sau fusion.
+- [x] So sánh kết quả BM25, Vector và Hybrid trên các truy vấn mẫu.
 
 ### Tiêu chí hoàn thành
 
@@ -228,23 +228,41 @@ Top-k context để trả lời dựa trên nguồn luật.
 
 ### Công việc
 
-- [ ] Chọn checkpoint Qwen 7B/8B phù hợp giấy phép và tiếng Việt.
-- [ ] Load model bằng quantization 4-bit.
-- [ ] Theo dõi VRAM và thời gian sinh câu trả lời.
-- [ ] Xây context từ kết quả Hybrid Retrieval.
-- [ ] Thiết kế system prompt giới hạn câu trả lời theo evidence.
-- [ ] Yêu cầu mô hình từ chối hoặc nêu thiếu dữ liệu khi context không đủ.
-- [ ] Kiểm soát độ dài context và output.
+- [x] Chọn `Qwen/Qwen2.5-7B-Instruct` làm checkpoint local LLM.
+- [x] Load model bằng quantization NF4 4-bit trên Colab T4.
+- [x] Theo dõi VRAM, token và thời gian retrieval/generation/toàn pipeline.
+- [x] Xây context có cấu trúc từ kết quả Hybrid Retrieval.
+- [x] Cô lập phiên bản luật: hiện hành, Luật 2013 và chế độ so sánh.
+- [x] Mở rộng các Khoản/Điểm cùng Điều khi nhiều hit cùng trỏ đến Điều đó.
+- [x] Khử chunk trùng, giữ thứ tự pháp lý và giới hạn expansion theo token budget.
+- [x] Thiết kế grounded prompt chỉ dùng evidence trực tiếp liên quan đến câu hỏi.
+- [x] Không trộn chủ thể, hành vi, đối tượng hoặc trường hợp pháp lý khác.
+- [x] Cấm tự bổ sung ví dụ, điều kiện, suy luận và căn cứ không có trong evidence.
+- [x] Từ chối bằng câu `Chưa đủ căn cứ trong dữ liệu truy xuất.` khi evidence thiếu.
+- [x] Kiểm soát độ dài context/output và sinh xác định với `do_sample=False`.
+- [x] Kiểm thử query hiện hành và query Luật Đất đai 2013.
 
 ### Tiêu chí hoàn thành
 
 - Model chạy ổn định trên Google Colab T4.
 - Câu trả lời sử dụng thông tin trong Top-k context.
 - Hạn chế phát sinh thông tin không có trong nguồn truy xuất.
+- Không trộn Luật 2013 vào câu hỏi hiện hành hoặc ngược lại.
+- Context expansion chỉ bổ sung chunk cùng văn bản và cùng Điều trong token budget.
 
 ### Đầu ra
 
 **Hỏi đáp dựa trên nguồn luật.**
+
+Artifacts chính:
+
+- `06_local_llm_rag.ipynb`: notebook end-to-end trên Colab T4.
+- `src/landlaw_rag/generation/rag.py`: dựng context, version isolation,
+  context expansion và grounded prompt.
+- `tests/test_rag_generation.py`: unit test cho prompt và kiểm soát evidence.
+
+Citation pháp lý chuẩn hóa từ metadata vẫn thuộc phạm vi M7; nhãn `[Nguồn n]`
+trong M6 chỉ dùng để phân biệt các đoạn context nội bộ.
 
 ---
 
