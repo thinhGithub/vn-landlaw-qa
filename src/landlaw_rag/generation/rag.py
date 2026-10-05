@@ -253,13 +253,18 @@ def build_messages(query: str, context: str) -> list[dict[str, str]]:
         f"hãy trả lời đúng nguyên văn: '{INSUFFICIENT_EVIDENCE_MESSAGE}' "
         "Không dùng các cụm từ mơ hồ như 'v.v.' hoặc 'etc.'. "
         "Trả lời ngắn gọn, rõ ràng, tập trung trực tiếp vào câu hỏi, bám sát EVIDENCE "
-        "và không mở rộng sang vấn đề khác."
+        "và không mở rộng sang vấn đề khác. Mỗi claim pháp lý phải nằm trên một dòng "
+        "riêng và kết thúc bằng một hoặc nhiều nhãn [Nguồn n] đúng với đoạn EVIDENCE "
+        "trực tiếp hỗ trợ claim đó. Dùng lại cùng nhãn nếu nhiều claim dùng cùng nguồn. "
+        "Không tự tạo số nguồn và không viết danh mục căn cứ pháp lý; hệ thống sẽ kiểm "
+        "tra nhãn nguồn và sinh citation từ metadata."
     )
     user_prompt = (
         f"CÂU HỎI:\n{query}\n\n"
         f"CHẾ ĐỘ PHIÊN BẢN: {intent}\n\n"
         f"EVIDENCE:\n{context or '[Không có evidence phù hợp]'}\n\n"
-        "Chỉ chọn evidence trực tiếp phù hợp với câu hỏi và tuân thủ đúng chế độ phiên bản."
+        "Chỉ chọn evidence trực tiếp phù hợp với câu hỏi, tuân thủ đúng chế độ phiên bản "
+        "và gắn [Nguồn n] ở cuối từng claim."
     )
     return [
         {"role": "system", "content": system_prompt},
