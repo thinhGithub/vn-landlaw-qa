@@ -16,8 +16,9 @@ GraphRAG hoặc Multi-Agent.
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Hoàn thành |
 | M7 | Citation & Source Validation | QA + validated legal citations | Hoàn thành |
 | M8 | Legal Comparison | Legal comparison with validated citations | Hoàn thành cơ bản |
-| M9 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
-| M10 | Web Demo | End-to-end Web Demo | Chưa bắt đầu |
+| M9 | Vietnamese Voice Interaction | Voice-enabled RAG pipeline | Chưa bắt đầu |
+| M10 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
+| M11 | Web Demo | End-to-end multimodal Web Demo | Chưa bắt đầu |
 
 ---
 
@@ -402,7 +403,55 @@ unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn
 
 ---
 
-## M9. Evaluation
+## M9. Vietnamese Voice Interaction
+
+### Mục tiêu
+
+Bổ sung giao tiếp giọng nói tiếng Việt mà không thay đổi logic retrieval, generation,
+comparison và citation đã hoàn thành trong M1–M8.
+
+`Audio → Speech-to-Text → transcript có thể chỉnh sửa → RAG → câu trả lời → Text-to-Speech`
+
+### Đầu vào
+
+- Pipeline QA và Legal Comparison từ M6–M8.
+- Audio tiếng Việt từ microphone hoặc file tải lên.
+- Mô hình Speech-to-Text và công cụ Text-to-Speech hỗ trợ tiếng Việt.
+- Quy tắc chuẩn hóa thuật ngữ pháp luật, năm, số hiệu và Điều/Khoản/Điểm.
+
+### Công việc
+
+- [ ] Nhận audio từ microphone và file tải lên.
+- [ ] Chuyển giọng nói tiếng Việt thành transcript.
+- [ ] Cho phép kiểm tra và chỉnh sửa transcript trước khi gửi.
+- [ ] Chuẩn hóa thuật ngữ pháp luật, năm, số hiệu và Điều/Khoản/Điểm.
+- [ ] Đưa transcript vào pipeline QA hoặc Legal Comparison hiện tại.
+- [ ] Chuyển phần trả lời chính thành audio tiếng Việt.
+- [ ] Không đọc citation, `chunk_id` và metadata dài; nguồn vẫn hiển thị bằng văn bản.
+- [ ] Ghi nhận STT, RAG, TTS và total latency.
+- [ ] Có fallback sang nhập/xuất văn bản khi STT hoặc TTS lỗi.
+- [ ] Viết test cho chuẩn hóa transcript và luồng audio.
+- [ ] Tạo notebook/script chạy thử trên Google Colab T4.
+
+### Tiêu chí hoàn thành
+
+- Audio tiếng Việt được chuyển thành transcript và có thể sửa trước khi gửi.
+- Transcript sử dụng cùng pipeline QA/Comparison và citation validation như câu hỏi văn bản.
+- Câu trả lời có thể phát lại bằng giọng nói tiếng Việt.
+- Citation và evidence không bị thay đổi bởi lớp giao tiếp giọng nói.
+- Fallback văn bản hoạt động khi STT/TTS gặp lỗi.
+- Pipeline chạy trong giới hạn tài nguyên Google Colab T4.
+- Có số liệu latency cho từng giai đoạn voice.
+
+### Đầu ra
+
+**Voice-enabled RAG pipeline.**
+
+Chi tiết được mô tả trong [`AUDIO_INTERACTION.md`](AUDIO_INTERACTION.md).
+
+---
+
+## M10. Evaluation
 
 ### Mục tiêu
 
@@ -422,6 +471,7 @@ unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn
 - Local LLM RAG từ M6.
 - Citation pipeline từ M7.
 - Legal Comparison từ M8.
+- Vietnamese Voice Interaction từ M9.
 - Bộ câu hỏi evaluation có ground truth/evidence chuẩn.
 - Cấu hình cố định của model/index/retrieval.
 
@@ -451,7 +501,14 @@ unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn
 - [ ] Đo:
   - retrieval latency,
   - generation latency,
-  - total latency.
+  - STT latency,
+  - TTS latency,
+  - total text latency,
+  - total voice latency.
+- [ ] Xây tập audio tiếng Việt nhỏ có transcript chuẩn cho thuật ngữ pháp luật,
+  năm, số hiệu văn bản và Điều/Khoản/Điểm.
+- [ ] Đo transcript accuracy hoặc Word Error Rate cho Speech-to-Text.
+- [ ] Kiểm tra ảnh hưởng của lỗi transcript đến retrieval, answer và citation.
 - [ ] Ghi cấu hình của từng experiment:
   - embedding model,
   - LLM,
@@ -470,6 +527,7 @@ unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn
 - Có đánh giá answer correctness/faithfulness.
 - Có đánh giá legal comparison.
 - Có số liệu latency.
+- Có đánh giá cơ bản cho STT/TTS và luồng voice end-to-end.
 - Có bảng so sánh/ablation giữa các cấu hình retrieval.
 - Kết quả có thể chạy lại với cùng cấu hình.
 
@@ -479,7 +537,7 @@ unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn
 
 ---
 
-## M10. Web Demo
+## M11. Web Demo
 
 ### Mục tiêu
 
@@ -493,7 +551,8 @@ Sử dụng Gradio và chạy được trên Google Colab T4.
 - Local LLM RAG từ M6.
 - Citation & Source Validation từ M7.
 - Legal Comparison từ M8.
-- Kết quả/configuration tốt nhất từ M9.
+- Vietnamese Voice Interaction từ M9.
+- Kết quả/configuration tốt nhất từ M10.
 - BM25/FAISS index.
 - Embedding model.
 - Local Qwen model.
@@ -503,11 +562,13 @@ Sử dụng Gradio và chạy được trên Google Colab T4.
 
 - [ ] Tạo Gradio UI.
 - [ ] Có ô nhập câu hỏi.
+- [ ] Có microphone/file audio và transcript có thể chỉnh sửa.
 - [ ] Có chế độ:
   - QA thông thường.
   - Legal Comparison.
 - [ ] Có thể tự động detect comparison nếu pipeline đã hỗ trợ.
 - [ ] Hiển thị câu trả lời.
+- [ ] Cho phép phát audio của phần trả lời chính.
 - [ ] Hiển thị validated citations.
 - [ ] Hiển thị danh sách evidence/source.
 - [ ] Cho phép xem metadata:
@@ -522,6 +583,7 @@ Sử dụng Gradio và chạy được trên Google Colab T4.
   - Luật 2024/hiện hành.
 - [ ] Hiển thị phần giống/khác hoặc thay đổi.
 - [ ] Hiển thị retrieval latency, generation latency và total latency.
+- [ ] Với voice, hiển thị thêm STT latency và TTS latency.
 - [ ] Xử lý lỗi khi index/model chưa được load.
 - [ ] Có một số sample questions.
 - [ ] Tạo notebook/script chạy demo trên Google Colab T4.
@@ -530,16 +592,18 @@ Sử dụng Gradio và chạy được trên Google Colab T4.
 
 - Người dùng có thể thực hiện end-to-end:
   `Question → Retrieval → Generation → Citation → Result`.
+- Người dùng có thể thực hiện end-to-end bằng giọng nói:
+  `Audio → STT → Retrieval → Generation → Citation → TTS`.
 - QA thông thường hoạt động.
 - Legal comparison hoạt động.
 - Citation và evidence dễ kiểm tra.
 - Không trộn phiên bản luật trong UI.
 - Demo chạy ổn định trên Google Colab T4.
-- Có thể sử dụng các câu hỏi evaluation từ M9 để demo.
+- Có thể sử dụng các câu hỏi và audio evaluation từ M10 để demo.
 
 ### Đầu ra
 
-**End-to-end Web Demo.**
+**End-to-end multimodal Web Demo.**
 
 ---
 

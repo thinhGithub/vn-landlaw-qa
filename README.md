@@ -208,4 +208,5 @@ DOCX -> parse -> normalize -> adaptive chunking -> BM25 + FAISS
 
 M1–M7 đã hoàn thành. M8 Legal Comparison đã hoàn thành cơ bản với routing,
 cô lập evidence theo phiên bản, structured comparison prompt và validated citations;
-đánh giá định lượng trên tập câu hỏi lớn hơn thuộc phạm vi M9.
+M9 bổ sung giao tiếp giọng nói tiếng Việt. Đánh giá định lượng trên tập câu hỏi lớn
+hơn thuộc phạm vi M10; Web Demo end-to-end thuộc M11.
