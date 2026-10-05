@@ -65,6 +65,8 @@ def test_prompt_requires_evidence_and_insufficient_answer() -> None:
     assert "không tự bổ sung ví dụ" in combined
     assert "Không nêu Điều, Khoản, Điểm" in combined
     assert "'v.v.'" in combined
+    assert "Mỗi claim pháp lý phải nằm trên một dòng" in combined
+    assert "[Nguồn n]" in combined
     assert "Điều kiện bồi thường là gì?" in combined
 
 

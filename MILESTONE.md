@@ -14,7 +14,7 @@ GraphRAG hoặc Multi-Agent.
 | M4 | Vector Retrieval | Semantic search hoạt động | Hoàn thành |
 | M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Hoàn thành |
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Hoàn thành |
-| M7 | Citation & Source Validation | QA + validated legal citations | Chưa bắt đầu |
+| M7 | Citation & Source Validation | QA + validated legal citations | Hoàn thành |
 | M8 | Legal Comparison | Legal comparison with validated citations | Chưa bắt đầu |
 | M9 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
 | M10 | Web Demo | End-to-end Web Demo | Chưa bắt đầu |
@@ -274,9 +274,9 @@ Bổ sung citation pháp lý có cấu trúc cho câu trả lời của pipeline
 
 Citation phải được sinh **deterministic từ metadata của retrieved evidence**, không để LLM tự tạo hoặc tự suy đoán citation.
 
-Citation phải có khả năng biểu diễn cấu trúc:
+Citation sử dụng cấu trúc ngắn gọn:
 
-`Văn bản → Chương → Mục → Điều → Khoản → Điểm`
+`Văn bản → Điều → Khoản → Điểm`
 
 Chỉ hiển thị những cấp thực sự tồn tại trong metadata.
 
@@ -298,18 +298,19 @@ Chỉ hiển thị những cấp thực sự tồn tại trong metadata.
 - Quy tắc format citation.
 
 ### Công việc
-- [ ] Xây citation formatter từ metadata.
-- [ ] Citation không được lấy từ text do LLM tự sinh.
-- [ ] Chuẩn hóa format citation:
-  `Văn bản → Chương → Mục → Điều → Khoản → Điểm`.
-- [ ] Tự động bỏ qua các cấp metadata không tồn tại.
-- [ ] Liên kết citation với đúng evidence/chunk đã được đưa vào context.
-- [ ] Không cho phép citation tới chunk không xuất hiện trong evidence của câu hỏi.
-- [ ] Loại citation trùng lặp.
-- [ ] Giữ thứ tự citation ổn định và dễ kiểm tra.
-- [ ] Xử lý metadata thiếu hoặc malformed.
-- [ ] Thêm unit test cho citation formatter và source validation.
-- [ ] Kiểm thử trên câu hỏi luật hiện hành và câu hỏi Luật Đất đai 2013.
+- [x] Xây citation formatter từ metadata.
+- [x] Citation không được lấy từ text do LLM tự sinh.
+- [x] Chuẩn hóa format citation:
+  `Văn bản → Điều → Khoản → Điểm`.
+- [x] Tự động bỏ qua các cấp metadata không tồn tại.
+- [x] Liên kết citation với đúng evidence/chunk đã được đưa vào context.
+- [x] Không cho phép citation tới chunk không xuất hiện trong evidence của câu hỏi.
+- [x] Loại citation trùng lặp.
+- [x] Giữ thứ tự citation ổn định và dễ kiểm tra.
+- [x] Gắn inline marker cho từng claim và lưu mapping về `chunk_id` hỗ trợ.
+- [x] Xử lý metadata thiếu hoặc malformed.
+- [x] Thêm unit test cho citation formatter và source validation.
+- [x] Kiểm thử trên câu hỏi luật hiện hành và câu hỏi Luật Đất đai 2013.
 
 ### Tiêu chí hoàn thành
 

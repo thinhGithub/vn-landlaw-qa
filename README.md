@@ -169,13 +169,41 @@ $env:PYTHONPATH = "src"
 python -m pytest tests\test_rag_generation.py -q
 ```
 
+## Chạy Milestone 7 — Citation & Source Validation
+
+M7 bổ sung lớp hậu xử lý độc lập, không thay đổi retrieval hoặc generation của
+M1–M6. Citation được tạo deterministic từ metadata của các chunk thực sự có
+trong context, theo dạng ngắn:
+
+```text
+[1] Luật Đất đai số 31/2024/QH15 → Điều 45 → Khoản 1 → Điểm a
+```
+
+API chính nằm trong `landlaw_rag.generation`:
+
+- `format_citation(metadata)`: định dạng nguồn, không đưa nội dung hoặc tiêu đề
+  Điều vào citation.
+- `build_citations(evidence, cited_chunk_ids)`: kiểm tra nguồn thuộc evidence,
+  khử trùng và giữ thứ tự retrieval ổn định.
+- `cite_tagged_answer(...)`: validate nhãn `[Nguồn n]` do model chọn từ context,
+  đổi thành marker inline và tạo mapping `claim → citation_id → chunk_id`.
+- `cite_answer(...)`: API thủ công cho caller đã có sẵn `ClaimSupport`.
+
+Prompt yêu cầu mỗi claim nằm trên một dòng và kết thúc bằng `[Nguồn n]`. Lớp M7
+từ chối claim thiếu nguồn hoặc nhãn không thuộc context, dùng lại cùng marker cho
+cùng nguồn và chỉ liệt kê mỗi căn cứ một lần. Chạy test bằng:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m pytest tests\test_citation.py -q
+```
+
 ## Luồng xử lý hiện tại
 
 ```text
 DOCX -> parse -> normalize -> adaptive chunking -> BM25 + FAISS
      -> hybrid retrieval (RRF) -> version isolation -> context expansion
-     -> grounded prompt -> local LLM
+     -> grounded prompt -> local LLM -> validated citations
 ```
 
-M1–M6 đã hoàn thành. Citation chuẩn hóa và đối chiếu pháp lý có kiểm chứng là
-phạm vi của M7.
+M1–M7 đã hoàn thành. Đối chiếu pháp lý giữa các phiên bản luật thuộc phạm vi M8.
