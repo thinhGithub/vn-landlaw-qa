@@ -193,6 +193,18 @@ def test_source_marker_on_next_line_is_joined_to_previous_claim() -> None:
     assert result.claim_mappings[0].chunk_ids == ("c1",)
 
 
+def test_grouped_source_markers_are_normalized_without_inferring_sources() -> None:
+    evidence = [
+        _chunk("c1", document_title="Luật A", article="Điều 1"),
+        _chunk("c2", document_title="Luật B", article="Điều 2"),
+    ]
+    result = cite_tagged_answer(
+        "Điểm giống được cả hai phía hỗ trợ. [Nguồn 1, Nguồn 2]", evidence
+    )
+    assert result.claim_mappings[0].chunk_ids == ("c1", "c2")
+    assert result.text.startswith("Điểm giống được cả hai phía hỗ trợ. [1][2]")
+
+
 def test_orphan_source_marker_is_rejected() -> None:
     evidence = [_chunk("c1", document_title="Luật A", article="Điều 1")]
     with pytest.raises(CitationValidationError, match="không có claim"):

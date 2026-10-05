@@ -15,7 +15,7 @@ GraphRAG hoặc Multi-Agent.
 | M5 | Hybrid Retrieval | Retriever hoàn chỉnh | Hoàn thành |
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Hoàn thành |
 | M7 | Citation & Source Validation | QA + validated legal citations | Hoàn thành |
-| M8 | Legal Comparison | Legal comparison with validated citations | Chưa bắt đầu |
+| M8 | Legal Comparison | Legal comparison with validated citations | Hoàn thành cơ bản |
 | M9 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
 | M10 | Web Demo | End-to-end Web Demo | Chưa bắt đầu |
 
@@ -352,10 +352,10 @@ Không giả định rằng cùng một nội dung pháp lý sẽ nằm ở cùn
 
 ### Công việc
 
-- [ ] Xây rule-based intent detection để phân biệt:
+- [x] Xây rule-based intent detection để phân biệt:
   - QA thông thường.
   - Legal comparison.
-- [ ] Nhận diện các query có ý định như:
+- [x] Nhận diện các query có ý định như:
   - so sánh,
   - khác nhau,
   - thay đổi,
@@ -363,23 +363,23 @@ Không giả định rằng cùng một nội dung pháp lý sẽ nằm ở cùn
   - hiện nay,
   - 2013,
   - 2024.
-- [ ] Khi comparison, retrieve evidence của Luật 2013 riêng.
-- [ ] Retrieve evidence của Luật 2024/hiện hành riêng.
-- [ ] Không trộn evidence của hai phiên bản trước bước comparison.
-- [ ] Đối chiếu theo cùng chủ đề/nội dung pháp lý.
-- [ ] Không map Điều 2013 sang Điều 2024 chỉ dựa trên số Điều.
-- [ ] Xây structured comparison context cho LLM.
-- [ ] Prompt LLM sinh kết quả gồm:
+- [x] Khi comparison, retrieve evidence của Luật 2013 riêng.
+- [x] Retrieve evidence của Luật 2024/hiện hành riêng.
+- [x] Không trộn evidence của hai phiên bản trước bước comparison.
+- [x] Đối chiếu theo cùng chủ đề/nội dung pháp lý.
+- [x] Không map Điều 2013 sang Điều 2024 chỉ dựa trên số Điều.
+- [x] Xây structured comparison context cho LLM.
+- [x] Prompt LLM sinh kết quả gồm:
   - Quy định năm 2013.
   - Quy định năm 2024/hiện hành.
   - Điểm giống.
   - Điểm khác hoặc thay đổi.
   - Citation tương ứng cho từng phía.
-- [ ] Mỗi nhận định comparison phải truy ngược được về evidence.
-- [ ] Nếu một phía không tìm được evidence phù hợp, phải nêu rõ:
+- [x] Mỗi nhận định comparison phải truy ngược được về evidence.
+- [x] Nếu một phía không tìm được evidence phù hợp, phải nêu rõ:
   `Chưa tìm thấy quy định tương ứng trong dữ liệu truy xuất.`
-- [ ] Không cho phép LLM tự suy đoán sự thay đổi pháp luật khi evidence không đủ.
-- [ ] Viết test cho comparison routing, version isolation và evidence mapping.
+- [x] Không cho phép LLM tự suy đoán sự thay đổi pháp luật khi evidence không đủ.
+- [x] Viết test cho comparison routing, version isolation và evidence mapping.
 
 ### Tiêu chí hoàn thành
 
@@ -395,6 +395,10 @@ Không giả định rằng cùng một nội dung pháp lý sẽ nằm ở cùn
 ### Đầu ra
 
 **Legal comparison with validated citations.**
+
+Trạng thái hiện tại: **Hoàn thành cơ bản**. Luồng comparison, cô lập phiên bản,
+structured prompt, evidence mapping và citation validation đã được triển khai và có
+unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn được thực hiện trong M9.
 
 ---
 

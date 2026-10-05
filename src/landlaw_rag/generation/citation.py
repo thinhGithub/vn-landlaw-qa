@@ -56,6 +56,19 @@ class CitedAnswer:
 
 _SOURCE_TAG_RE = re.compile(r"\[Nguồn\s+(\d+)\]", flags=re.IGNORECASE)
 _SOURCE_ONLY_RE = re.compile(r"(?:\[Nguồn\s+\d+\]\s*)+", flags=re.IGNORECASE)
+_GROUPED_SOURCE_TAG_RE = re.compile(
+    r"\[(?:Nguồn\s+\d+\s*,\s*)+Nguồn\s+\d+\]", flags=re.IGNORECASE
+)
+
+
+def _normalize_grouped_source_tags(answer: str) -> str:
+    """Chuẩn hóa nhãn model đã chọn, không thêm hoặc suy đoán nguồn mới."""
+
+    def expand(match: re.Match[str]) -> str:
+        numbers = re.findall(r"Nguồn\s+(\d+)", match.group(0), flags=re.IGNORECASE)
+        return " ".join(f"[Nguồn {number}]" for number in numbers)
+
+    return _GROUPED_SOURCE_TAG_RE.sub(expand, answer)
 
 
 def _clean(value: Any) -> str:
@@ -203,7 +216,7 @@ def cite_tagged_answer(
     Dòng tiêu đề kết thúc bằng dấu hai chấm được phép không có nguồn.
     """
 
-    clean_answer = answer.strip()
+    clean_answer = _normalize_grouped_source_tags(answer.strip())
     if not clean_answer:
         raise CitationValidationError("Câu trả lời rỗng")
 
