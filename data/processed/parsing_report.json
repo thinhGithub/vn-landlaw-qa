@@ -6,7 +6,7 @@
     "articles": 260,
     "clauses": 1244,
     "points": 1090,
-    "chunks": 573,
+    "chunks": 2350,
     "warnings": []
   },
   {
@@ -16,7 +16,7 @@
     "articles": 5,
     "clauses": 4,
     "points": 0,
-    "chunks": 5,
+    "chunks": 8,
     "warnings": []
   },
   {
@@ -26,7 +26,7 @@
     "articles": 212,
     "clauses": 782,
     "points": 609,
-    "chunks": 299,
+    "chunks": 1400,
     "warnings": []
   },
   {
@@ -36,7 +36,7 @@
     "articles": 13,
     "clauses": 66,
     "points": 73,
-    "chunks": 44,
+    "chunks": 141,
     "warnings": []
   }
 ]

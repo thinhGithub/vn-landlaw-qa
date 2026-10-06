@@ -6,8 +6,12 @@ import inspect
 
 CSS = """
 :root,html,body,.gradio-container {color-scheme:light !important;}
-html,body {background:#f4f6f8 !important; color:#202833 !important;}
-.gradio-container {max-width:1600px !important; padding:24px !important; color:#202833 !important;
+html,body {width:100%; margin:0 !important; background:#f4f6f8 !important; color:#202833 !important;}
+gradio-app {display:block !important; width:100% !important; background:#f4f6f8 !important;}
+gradio-app > .main,gradio-app .main,#root > .main {
+ width:100% !important; max-width:none !important; margin-inline:auto !important;}
+gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important; width:calc(100% - 32px) !important;
+ max-width:1440px !important; margin:0 auto !important; padding:24px !important; color:#202833 !important;
  background:radial-gradient(ellipse at top,#fff3e8,transparent 60%),#f4f6f8 !important;
  --body-background-fill:#f4f6f8; --body-background-fill-dark:#f4f6f8;
  --background-fill-primary:#fff; --background-fill-primary-dark:#fff;
@@ -17,7 +21,8 @@ html,body {background:#f4f6f8 !important; color:#202833 !important;}
  --body-text-color:#202833; --body-text-color-dark:#202833;
  --body-text-color-subdued:#697586; --body-text-color-subdued-dark:#697586;
  --border-color-primary:#e6e8ec; --border-color-primary-dark:#e6e8ec;}
-#workspace {gap:18px; align-items:stretch;}
+#workspace {box-sizing:border-box; width:100% !important; max-width:100% !important;
+ margin-inline:auto !important; gap:18px; align-items:stretch; justify-content:center;}
 #sidebar,#main-panel,#sources-panel {background:#fff; border:1px solid #e6e8ec;
  border-radius:20px; padding:22px; box-shadow:0 8px 30px #18223008; color:#202833;}
 #sidebar .block,#main-panel .block,#sources-panel .block,
@@ -57,9 +62,20 @@ html,body {background:#f4f6f8 !important; color:#202833 !important;}
 .gradio-container .audio-container,.gradio-container .waveform-container,
 .gradio-container [data-testid="waveform"] {background:#f8fafc !important; color:#202833 !important;}
 .gradio-container footer {background:transparent !important; color:#697586 !important;}
-@media(max-width:1100px) {#sidebar {min-width:100% !important;}}
-@media(max-width:700px) {.gradio-container {padding:10px !important;}
- #sidebar,#main-panel,#sources-panel {min-width:0 !important; flex-basis:100% !important; padding:16px;}}
+@media(max-width:1100px) {
+ .gradio-container {width:calc(100% - 20px) !important; max-width:100% !important; padding:16px !important;}
+ #workspace {flex-wrap:wrap !important;}
+ #sidebar {min-width:100% !important; flex-basis:100% !important;}
+ #main-panel {min-width:calc(62% - 9px) !important;}
+ #sources-panel {min-width:calc(38% - 9px) !important;}
+}
+@media(max-width:700px) {
+ .gradio-container {width:100% !important; padding:10px !important;}
+ #workspace {gap:10px;}
+ #sidebar,#main-panel,#sources-panel {width:100% !important; min-width:0 !important;
+  flex:1 1 100% !important; flex-basis:100% !important; padding:16px;}
+ #chat {min-height:220px;}
+}
 """
 EMPTY_SOURCES = '<p class="muted">Chưa có nguồn trích dẫn. Đặt câu hỏi để xem căn cứ pháp lý từ kết quả RAG.</p>'
 WELCOME = """
@@ -111,12 +127,25 @@ def build_demo(interaction):
         except Exception as exc:
             return "", None, {}, {}, f"Không tạo được câu trả lời: {exc}"
 
+    def queue_user_message(text, history):
+        """Show the question and clear the composer before RAG runs."""
+        history = list(history or [])
+        pending = str(text or "").strip()
+        if not pending:
+            return "", history, history, "", "Vui lòng nhập câu hỏi."
+        history.append({"role": "user", "content": pending})
+        return pending, history, history, "", "Đang xử lý câu hỏi…"
+
     async def respond(text, transcript, speak, history):
         history = list(history or [])
+        if not str(text or "").strip():
+            return history, history, None, {}, {}, "Vui lòng nhập câu hỏi.", EMPTY_SOURCES
         answer_text, audio_path, rag, times, warning = await submit(text, transcript, speak)
         if answer_text:
-            history.extend([{"role": "user", "content": text},
-                            {"role": "assistant", "content": answer_text}])
+            history.append({"role": "assistant", "content": answer_text})
+        else:
+            history.append({"role": "assistant", "content":
+                            warning or "Không tạo được câu trả lời. Vui lòng thử lại."})
         return history, history, audio_path, rag, times, warning, render_sources(rag)
 
     # Colab may install either major version from requirements/audio.txt.
@@ -147,6 +176,7 @@ def build_demo(interaction):
     with StyledBlocks(title="LandLaw AI · Trợ lý pháp luật đất đai", **({} if modern else styling)) as demo:
         state = gr.State({})
         history = gr.State([])
+        pending_question = gr.State("")
         with gr.Row(elem_id="workspace"):
             with gr.Column(scale=2, min_width=240, elem_id="sidebar"):
                 gr.HTML('<div class="brand">⚖ LandLaw <span>AI</span></div><p class="muted">Trợ lý pháp luật đất đai Việt Nam</p>')
@@ -183,8 +213,17 @@ def build_demo(interaction):
         for button, text in zip(suggestions, QUESTIONS):
             button.click(lambda value=text: (value, "", {}), outputs=[question, original, state], concurrency_id="m9", concurrency_limit=1)
         for event in (send.click, question.submit):
-            event(respond, [question, state, speak, history], [answer, history, playback, details, timings, status, sources], concurrency_id="m9", concurrency_limit=1)
-        clear.click(lambda: ("", "", {}, [], None, {}, {}, "", None, EMPTY_SOURCES, []),
-                    outputs=[question, original, state, answer, playback, details, timings, status, audio, sources, history],
+            queued = event(
+                queue_user_message, [question, history],
+                [pending_question, answer, history, question, status],
+                concurrency_id="m9", concurrency_limit=1,
+            )
+            queued.then(
+                respond, [pending_question, state, speak, history],
+                [answer, history, playback, details, timings, status, sources],
+                concurrency_id="m9", concurrency_limit=1,
+            )
+        clear.click(lambda: ("", "", {}, [], None, {}, {}, "", None, EMPTY_SOURCES, [], ""),
+                    outputs=[question, original, state, answer, playback, details, timings, status, audio, sources, history, pending_question],
                     concurrency_id="m9", concurrency_limit=1)
     return demo.queue(default_concurrency_limit=1)

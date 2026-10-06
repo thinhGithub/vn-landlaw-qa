@@ -13,8 +13,14 @@ def test_gradio_builds_and_handles_text_request():
     from landlaw_rag.audio.demo import build_demo
     demo = build_demo(AudioInteraction(lambda q: {'answer': q, 'citations': []}))
     assert demo.config['components']
+    queue_message = next(fn.fn for fn in demo.fns.values() if fn.fn.__name__ == 'queue_user_message')
     respond = next(fn.fn for fn in demo.fns.values() if fn.fn.__name__ == 'respond')
-    result = asyncio.run(respond('Câu hỏi thử', {}, False, []))
+    queued = queue_message('Câu hỏi thử', [])
+    assert queued[0] == 'Câu hỏi thử'
+    assert queued[1] == [{'role': 'user', 'content': 'Câu hỏi thử'}]
+    assert queued[3] == ''
+    assert queued[4] == 'Đang xử lý câu hỏi…'
+    result = asyncio.run(respond(queued[0], {}, False, queued[2]))
     assert result[0] == [{'role': 'user', 'content': 'Câu hỏi thử'},
                          {'role': 'assistant', 'content': 'Câu hỏi thử'}]
     assert result[1] == result[0]
@@ -22,7 +28,7 @@ def test_gradio_builds_and_handles_text_request():
     assert result[5] == ''
     failed = asyncio.run(respond('', {}, False, result[1]))
     assert failed[0] == result[0]
-    assert 'Không tạo được' in failed[5]
+    assert failed[5] == 'Vui lòng nhập câu hỏi.'
 
 
 def test_source_cards_escape_pipeline_text():

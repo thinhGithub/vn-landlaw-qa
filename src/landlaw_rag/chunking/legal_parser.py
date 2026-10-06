@@ -376,7 +376,9 @@ def chunk_document(document: dict[str, Any], max_chars: int = 3200) -> list[dict
         article_parts.extend(_point_text(point) for point in article.get("orphan_points", []))
         article_text = "\n".join(article_parts)
         sequence = 0
-        if len(article_text) <= max_chars or not article["clauses"]:
+        # Chỉ giữ chunk cấp Điều khi văn bản thực sự không có Khoản. Trước đây
+        # Điều ngắn bị gộp dù parser đã nhận ra Khoản, làm citation mất locator.
+        if not article["clauses"]:
             for piece in _split_long_text(article_text, max_chars):
                 chunks.append(_make_chunk(document, article, piece, sequence))
                 sequence += 1
@@ -387,7 +389,7 @@ def chunk_document(document: dict[str, Any], max_chars: int = 3200) -> list[dict
         for clause_index, clause in enumerate(article["clauses"]):
             clause_text = _node_text(clause)
             prefix = intro + "\n" if clause_index == 0 and intro else ""
-            if len(prefix + clause_text) <= max_chars or not clause["points"]:
+            if not clause["points"]:
                 for piece in _split_long_text(prefix + clause_text, max_chars):
                     chunks.append(
                         _make_chunk(document, article, piece, sequence, clause=clause["number"])
@@ -398,16 +400,29 @@ def chunk_document(document: dict[str, Any], max_chars: int = 3200) -> list[dict
             clause_lead = "\n".join(
                 [prefix + clause["text"], *(item["text"] for item in clause["continuation"])]
             ).strip()
+            # Giữ một nguồn cấp Khoản cho các nhận định tổng quát về Khoản,
+            # đồng thời tạo nguồn cấp Điểm riêng ở vòng lặp bên dưới.
+            for piece in _split_long_text(clause_lead, max_chars):
+                chunks.append(
+                    _make_chunk(document, article, piece, sequence, clause["number"])
+                )
+                sequence += 1
             group: list[dict[str, Any]] = []
             group_length = len(clause_lead)
             for point in clause["points"]:
                 point_text = _point_text(point)
-                if group and group_length + 1 + len(point_text) > max_chars:
+                # Không gộp nhiều Điểm vào một metadata range như "Điểm a-c".
+                # Mỗi Điểm phải có chunk_id và locator độc lập.
+                if group:
                     content = "\n".join([clause_lead, *(_point_text(item) for item in group)])
+                    point_label = (
+                        group[0]["number"] if len(group) == 1
+                        else f"{group[0]['number']}-{group[-1]['number']}"
+                    )
                     chunks.append(
                         _make_chunk(
                             document, article, content, sequence, clause["number"],
-                            f"{group[0]['number']}-{group[-1]['number']}",
+                            point_label,
                         )
                     )
                     sequence += 1

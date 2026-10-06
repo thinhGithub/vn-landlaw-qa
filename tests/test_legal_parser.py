@@ -47,6 +47,30 @@ def test_adaptive_chunking_and_stable_ids() -> None:
     assert not validate_document(document, first)
 
 
+def test_short_article_still_chunks_by_clause_and_point_for_precise_citation() -> None:
+    sample = """Điều 10. Xác định loại đất
+1. Việc xác định loại đất dựa trên các căn cứ sau:
+a) Giấy chứng nhận quyền sử dụng đất;
+b) Giấy tờ về quyền sử dụng đất.
+2. Trường hợp không có giấy tờ thực hiện theo quy định của Chính phủ.
+"""
+    document, warnings = parse_document(sample, "Luật-31-2024-QH15.txt")
+    chunks = chunk_document(document, max_chars=3200)
+
+    assert not warnings
+    locators = [
+        (chunk["metadata"]["article"], chunk["metadata"]["clause"],
+         chunk["metadata"]["point"])
+        for chunk in chunks
+    ]
+    assert ("Điều 10", "Khoản 1", None) in locators
+    assert ("Điều 10", "Khoản 1", "Điểm a") in locators
+    assert ("Điều 10", "Khoản 1", "Điểm b") in locators
+    assert ("Điều 10", "Khoản 2", None) in locators
+    assert all("Điểm a-b" not in locator for locator in locators if locator[2])
+    assert not validate_document(document, chunks)
+
+
 def test_quoted_law_content_is_not_parsed_as_direct_clause() -> None:
     sample = """Điều 1. Sửa đổi luật khác
 1. Sửa đổi Điều 2 như sau:
