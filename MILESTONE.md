@@ -16,7 +16,7 @@ GraphRAG hoặc Multi-Agent.
 | M6 | Local LLM RAG | Hỏi đáp dựa trên nguồn luật | Hoàn thành |
 | M7 | Citation & Source Validation | QA + validated legal citations | Hoàn thành |
 | M8 | Legal Comparison | Legal comparison with validated citations | Hoàn thành cơ bản |
-| M9 | Vietnamese Voice Interaction | Voice-enabled RAG pipeline | Chưa bắt đầu |
+| M9 | Vietnamese Voice Interaction | Voice-enabled RAG pipeline | MVP đã triển khai; chờ chạy thực tế trên T4 |
 | M10 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
 | M11 | Web Demo | End-to-end multimodal Web Demo | Chưa bắt đầu |
 
@@ -399,7 +399,7 @@ Không giả định rằng cùng một nội dung pháp lý sẽ nằm ở cùn
 
 Trạng thái hiện tại: **Hoàn thành cơ bản**. Luồng comparison, cô lập phiên bản,
 structured prompt, evidence mapping và citation validation đã được triển khai và có
-unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn được thực hiện trong M9.
+unit test. Việc đánh giá định lượng trên tập câu hỏi lớn hơn được thực hiện trong M10.
 
 ---
 
@@ -421,17 +421,18 @@ comparison và citation đã hoàn thành trong M1–M8.
 
 ### Công việc
 
-- [ ] Nhận audio từ microphone và file tải lên.
-- [ ] Chuyển giọng nói tiếng Việt thành transcript.
-- [ ] Cho phép kiểm tra và chỉnh sửa transcript trước khi gửi.
-- [ ] Chuẩn hóa thuật ngữ pháp luật, năm, số hiệu và Điều/Khoản/Điểm.
-- [ ] Đưa transcript vào pipeline QA hoặc Legal Comparison hiện tại.
-- [ ] Chuyển phần trả lời chính thành audio tiếng Việt.
-- [ ] Không đọc citation, `chunk_id` và metadata dài; nguồn vẫn hiển thị bằng văn bản.
-- [ ] Ghi nhận STT, RAG, TTS và total latency.
-- [ ] Có fallback sang nhập/xuất văn bản khi STT hoặc TTS lỗi.
-- [ ] Viết test cho chuẩn hóa transcript và luồng audio.
-- [ ] Tạo notebook/script chạy thử trên Google Colab T4.
+- [x] Tích hợp microphone/file upload trong demo Gradio tối thiểu.
+- [x] Tích hợp STT tiếng Việt bằng faster-whisper, lazy-load trên CPU.
+- [x] Cho phép kiểm tra và chỉnh sửa transcript trước khi gửi.
+- [x] Chuẩn hóa một số mẫu năm, Điều/Khoản/Điểm; giữ nguyên số hiệu và mẫu chưa chắc chắn.
+- [x] Đưa transcript vào adapter dùng API QA/Comparison hiện tại.
+- [x] Tích hợp TTS tiếng Việt bằng Edge TTS, có timeout.
+- [x] Loại bibliography và marker M7 khỏi bản đọc; giữ nguyên câu trả lời và nguồn trên UI.
+- [x] Ghi nhận STT, RAG, TTS và total latency.
+- [x] Có fallback sang nhập/xuất văn bản khi STT hoặc TTS lỗi.
+- [x] Viết test cho chuẩn hóa transcript và integration với citation/version isolation.
+- [x] Tạo `09_audio_interaction.ipynb` chỉ khởi tạo/chạy demo; logic trong `src/`.
+- [ ] Chạy nghiệm thu với audio thật và Qwen trên Google Colab T4.
 
 ### Tiêu chí hoàn thành
 
@@ -446,6 +447,9 @@ comparison và citation đã hoàn thành trong M1–M8.
 ### Đầu ra
 
 **Voice-enabled RAG pipeline.**
+
+MVP đã triển khai. Test tự động dùng STT/TTS/generation giả lập để kiểm tra orchestration
+và gọi validation thật M7–M8; chưa thay thế kiểm thử chất lượng audio/model trên T4.
 
 Chi tiết được mô tả trong [`AUDIO_INTERACTION.md`](AUDIO_INTERACTION.md).
 

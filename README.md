@@ -198,6 +198,16 @@ $env:PYTHONPATH = "src"
 python -m pytest tests\test_citation.py -q
 ```
 
+## Chạy Milestone 9 — Voice MVP
+
+Mở [09_audio_interaction.ipynb](09_audio_interaction.ipynb) trên Colab T4, chỉnh
+`PROJECT_ROOT`, cài `requirements/audio.txt`, load RAG rồi chạy demo. Thu âm/upload,
+nhấn nhận dạng, kiểm tra transcript và gửi. Có thể nhập văn bản trực tiếp.
+
+STT dùng CPU; Qwen dùng T4. Bật checkbox đọc câu trả lời để dùng Edge TTS trực tuyến.
+Logic nằm trong `src/landlaw_rag/audio/`; notebook chỉ cấu hình và chạy demo.
+Xem [AUDIO_INTERACTION.md](AUDIO_INTERACTION.md) cho giới hạn MVP và kiểm thử.
+
 ## Luồng xử lý hiện tại
 
 ```text

@@ -1,5 +1,38 @@
 # M9 — Vietnamese Voice Interaction
 
+## MVP đã triển khai
+
+- Entry point: `09_audio_interaction.ipynb` (Colab T4).
+- Logic: `src/landlaw_rag/audio/interaction.py` (STT/TTS, chuẩn hóa, xác nhận),
+  `runtime.py` (adapter dùng API M5–M8, load model/index) và `demo.py` (UI demo).
+- Cài môi trường tùy chọn: `pip install -r requirements/audio.txt`.
+- STT: faster-whisper small, CPU int8, tối đa 120 giây/20 MB; tải model ở lần đầu.
+- TTS: Edge TTS, giọng `vi-VN-HoaiMyNeural`, timeout 45 giây. Cần Internet và gửi
+  phần trả lời tới dịch vụ trực tuyến. Checkbox TTS mặc định tắt.
+- Notebook lưu audio ở `/content/m9_audio`; runtime Colab bị xóa thì audio cũng mất.
+  Khi dùng API ngoài notebook, mặc định lưu tại `artifacts/audio/`; không tự xóa file.
+- Transcript được chuẩn hóa ở bước nhận dạng, sau đó người dùng xác nhận; câu hỏi đã
+  xác nhận được chuyển nguyên vẹn tới RAG. Các số hiệu không rõ không được suy đoán.
+- Chuẩn hóa MVP hỗ trợ Điều/Khoản từ 1–99 và hai mẫu năm 2013/2024; số lớn hơn và
+  cách nói khác được giữ nguyên để người dùng sửa.
+- `AudioInteraction.answer()` là async; notebook có thể gọi bằng `await`.
+  Kết quả giữ nguyên payload RAG trong trường `rag`, thêm transcript, audio và latency.
+- Tổng latency không bao gồm thời gian người dùng sửa transcript; lần đầu có thể
+  gồm thời gian tải STT. Thời gian retrieval/generation/citation nằm trong `rag`.
+- Test: `PYTHONPATH=src python -m pytest tests/test_audio.py -q`.
+- Chưa nghiệm thu audio thật/Qwen trên T4; không coi test giả lập là benchmark STT/TTS.
+
+Kết quả kiểm tra MVP (2026-10-06): 74 test cũ và 25 test M9 đạt qua hai môi trường
+kiểm thử. Đã kiểm tra dựng Gradio, callback nhập văn bản, giải mã WAV thật và schema
+notebook. Edge TTS tạo được MP3; Whisper tiny CPU nhận dạng được MP3 mẫu nhưng còn
+sai từ. Đây là smoke test kỹ thuật, không phải đánh giá độ chính xác tiếng Việt.
+Dependency giới hạn `av>=11,<16` vì PyAV 19 bỏ tham số `metadata_errors` mà
+faster-whisper 1.2.1 sử dụng. Đã chạy lại decoder/STT với PyAV 15.1.0 thành công.
+
+API backend đã đối chiếu với tài liệu [faster-whisper](https://github.com/SYSTRAN/faster-whisper)
+và [edge-tts](https://github.com/rany2/edge-tts). Các mục dưới đây là thiết kế/phạm vi;
+interface ví dụ có thể khác API MVP nêu trên.
+
 ## 1. Mục tiêu
 
 M9 bổ sung lớp giao tiếp giọng nói tiếng Việt cho hệ thống Hybrid RAG pháp luật đất
@@ -182,4 +215,3 @@ Nên có tối thiểu 10–20 đoạn, bao gồm:
 - Test cho normalization và voice integration.
 - Notebook/script minh họa pipeline voice end-to-end.
 - Một tập audio smoke test nhỏ kèm transcript tham chiếu.
-

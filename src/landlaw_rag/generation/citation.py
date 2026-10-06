@@ -209,6 +209,7 @@ def cite_answer(
 def cite_tagged_answer(
     answer: str,
     evidence: Sequence[Mapping[str, Any]],
+    strict: bool = True,
 ) -> CitedAnswer:
     """Validate ``[Nguồn n]`` theo context rồi đổi thành inline citation.
 
@@ -256,6 +257,9 @@ def cite_tagged_answer(
         matches = list(_SOURCE_TAG_RE.finditer(line))
         if not matches:
             if line.endswith(":"):
+                parsed_lines.append((line, ()))
+                continue
+            if not strict:
                 parsed_lines.append((line, ()))
                 continue
             raise CitationValidationError(f"Claim thiếu nhãn [Nguồn n]: {line!r}")
