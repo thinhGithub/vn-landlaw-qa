@@ -6,7 +6,17 @@
 - Logic: `src/landlaw_rag/audio/interaction.py` (STT/TTS, chuẩn hóa, xác nhận),
   `runtime.py` (adapter dùng API M5–M8, load model/index) và `demo.py` (UI demo).
 - Cài môi trường tùy chọn: `pip install -r requirements/audio.txt`.
-- STT: faster-whisper small, CPU int8, tối đa 120 giây/20 MB; tải model ở lần đầu.
+- UI LandLaw AI: bố cục ba vùng, hội thoại trong phiên, câu hỏi gợi ý, nguồn
+  trích dẫn thật, nhận dạng giọng nói và phát câu trả lời. Mỗi câu hỏi RAG vẫn
+  độc lập; lịch sử trên màn hình không được đưa vào prompt.
+- Notebook 9 mở demo bằng `share=True, inline=True, height=950`. Cell cuối
+  đóng demo cũ và reload module UI, cho phép cập nhật giao diện từ Drive mà
+  không nạp lại Qwen. Có thể mở link Gradio để dùng giao diện rộng và microphone.
+- CSS thích ứng chiều rộng iframe Colab; nguồn và điều khiển giọng nói vẫn
+  truy cập được trên màn hình nhỏ. Môi trường demo cố định Gradio 5.49.1;
+  module UI cũng xử lý khác biệt vị trí theme/CSS của Gradio 5/6.
+- STT trong notebook Colab: `vinai/PhoWhisper-medium` qua Transformers, CUDA
+  float16, tối đa 120 giây/20 MB; model được tải ở lần đầu và dùng GPU cùng Qwen.
 - TTS: Edge TTS, giọng `vi-VN-HoaiMyNeural`, timeout 45 giây. Cần Internet và gửi
   phần trả lời tới dịch vụ trực tuyến. Checkbox TTS mặc định tắt.
 - Notebook lưu audio ở `/content/m9_audio`; runtime Colab bị xóa thì audio cũng mất.
@@ -20,7 +30,8 @@
 - Tổng latency không bao gồm thời gian người dùng sửa transcript; lần đầu có thể
   gồm thời gian tải STT. Thời gian retrieval/generation/citation nằm trong `rag`.
 - Test: `PYTHONPATH=src python -m pytest tests/test_audio.py -q`.
-- Chưa nghiệm thu audio thật/Qwen trên T4; không coi test giả lập là benchmark STT/TTS.
+- Chưa nghiệm thu audio thật/PhoWhisper/Qwen trên T4; không coi test giả lập là
+  benchmark STT/TTS. Cần theo dõi VRAM vì hai model cùng dùng GPU.
 
 Kết quả kiểm tra MVP (2026-10-06): 74 test cũ và 25 test M9 đạt qua hai môi trường
 kiểm thử. Đã kiểm tra dựng Gradio, callback nhập văn bản, giải mã WAV thật và schema

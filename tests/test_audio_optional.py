@@ -13,11 +13,28 @@ def test_gradio_builds_and_handles_text_request():
     from landlaw_rag.audio.demo import build_demo
     demo = build_demo(AudioInteraction(lambda q: {'answer': q, 'citations': []}))
     assert demo.config['components']
-    submit = next(fn.fn for fn in demo.fns.values() if fn.fn.__name__ == 'submit')
-    result = asyncio.run(submit('Câu hỏi thử', {}, False))
-    assert result[0] == 'Câu hỏi thử'
-    assert result[1] is None
-    assert result[-1] == ''
+    respond = next(fn.fn for fn in demo.fns.values() if fn.fn.__name__ == 'respond')
+    result = asyncio.run(respond('Câu hỏi thử', {}, False, []))
+    assert result[0] == [{'role': 'user', 'content': 'Câu hỏi thử'},
+                         {'role': 'assistant', 'content': 'Câu hỏi thử'}]
+    assert result[1] == result[0]
+    assert result[2] is None
+    assert result[5] == ''
+    failed = asyncio.run(respond('', {}, False, result[1]))
+    assert failed[0] == result[0]
+    assert 'Không tạo được' in failed[5]
+
+
+def test_source_cards_escape_pipeline_text():
+    from landlaw_rag.audio.demo import render_sources, EMPTY_SOURCES
+    assert render_sources({}) == EMPTY_SOURCES
+    rendered = render_sources({'citations': [
+        {'number': 2, 'text': '<script>alert(1)</script>', 'chunk_ids': ['a&b']}
+    ]})
+    assert 'NGUỒN [2]' in rendered
+    assert '<script>' not in rendered
+    assert '&lt;script&gt;' in rendered
+    assert 'a&amp;b' in rendered
 
 
 def test_real_decoder_and_whisper_adapter_cache(tmp_path, monkeypatch):
