@@ -107,7 +107,7 @@ class RAGAdapter:
         return result
 
 
-def load_colab_rag(project_root, model_name="Qwen/Qwen2.5-7B-Instruct",
+def load_colab_rag(project_root, model_name="Qwen/Qwen3-4B-Instruct-2507",
                    strict_citations=True):
     """Load saved indexes, CPU embeddings and NF4 Qwen on a CUDA runtime."""
     import torch

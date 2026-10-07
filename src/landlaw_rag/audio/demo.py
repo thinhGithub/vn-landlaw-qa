@@ -10,8 +10,8 @@ html,body {width:100%; margin:0 !important; background:#f4f6f8 !important; color
 gradio-app {display:block !important; width:100% !important; background:#f4f6f8 !important;}
 gradio-app > .main,gradio-app .main,#root > .main {
  width:100% !important; max-width:none !important; margin-inline:auto !important;}
-gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important; width:calc(100% - 32px) !important;
- max-width:1440px !important; margin:0 auto !important; padding:24px !important; color:#202833 !important;
+gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important; width:calc(100% - 16px) !important;
+ max-width:1800px !important; margin:0 auto !important; padding:10px !important; color:#202833 !important;
  background:radial-gradient(ellipse at top,#fff3e8,transparent 60%),#f4f6f8 !important;
  --body-background-fill:#f4f6f8; --body-background-fill-dark:#f4f6f8;
  --background-fill-primary:#fff; --background-fill-primary-dark:#fff;
@@ -22,9 +22,9 @@ gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important
  --body-text-color-subdued:#697586; --body-text-color-subdued-dark:#697586;
  --border-color-primary:#e6e8ec; --border-color-primary-dark:#e6e8ec;}
 #workspace {box-sizing:border-box; width:100% !important; max-width:100% !important;
- margin-inline:auto !important; gap:18px; align-items:stretch; justify-content:center;}
+ margin-inline:auto !important; gap:12px; align-items:stretch; justify-content:center;}
 #sidebar,#main-panel,#sources-panel {background:#fff; border:1px solid #e6e8ec;
- border-radius:20px; padding:22px; box-shadow:0 8px 30px #18223008; color:#202833;}
+ border-radius:16px; padding:14px; box-shadow:0 8px 30px #18223008; color:#202833;}
 #sidebar .block,#main-panel .block,#sources-panel .block,
 #sidebar .form,#main-panel .form,#sources-panel .form {background:#fff !important; color:#202833 !important;}
 .gradio-container input,.gradio-container textarea,.gradio-container select {
@@ -34,11 +34,11 @@ gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important
 .gradio-container button:not(#send) {background:#fff !important; color:#344054 !important; border-color:#d9dde5 !important;}
 .gradio-container button:not(#send):hover {background:#fff7ed !important; border-color:#fdba74 !important;}
 .gradio-container .accordion,.gradio-container details {background:#fff !important; color:#202833 !important;}
-.brand {font-size:24px; font-weight:750; color:#202833; margin-bottom:12px;}
+.brand {font-size:21px; font-weight:750; color:#202833; margin-bottom:6px;}
 .brand span {color:#ea580c;} .muted {color:#697586; font-size:13px; line-height:1.7;}
-.welcome {padding:18px 0;} .welcome h1 {font-size:28px; color:#202833; line-height:1.3;}
-.welcome-grid {display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
-.welcome-card {flex:1; min-width:120px; padding:14px; border:1px solid #e6e8ec;
+.welcome {padding:8px 0;} .welcome h1 {font-size:24px; color:#202833; line-height:1.2; margin:8px 0;}
+.welcome-grid {display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+.welcome-card {flex:1; min-width:120px; padding:10px; border:1px solid #e6e8ec;
  border-radius:12px; background:#fff; text-align:left; color:#202833;}
 .welcome-card b {display:block; font-size:13px; margin-bottom:6px; color:#c2410c;}
 .welcome-card small {font-size:12px; color:#697586;}
@@ -49,7 +49,30 @@ gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important
 #chat .message {color:#202833 !important; border:1px solid #e6e8ec !important; box-shadow:none !important;}
 #chat .message.bot,#chat .message-row.bot .message {background:#fff !important;}
 #chat .message.user,#chat .message-row.user .message {background:#fff3e8 !important;}
+#chat [data-testid="block-label"],#chat [data-testid="block-info"],
+#answer-audio [data-testid="block-label"],#answer-audio [data-testid="block-info"],
+#chat [data-testid="block-label"] *,#chat [data-testid="block-info"] *,
+#answer-audio [data-testid="block-label"] *,#answer-audio [data-testid="block-info"] * {
+ color:#fff !important;
+}
 #question textarea {font-size:15px; line-height:1.6;}
+#voice-strip {align-items:center; gap:8px; margin-bottom:6px; padding:6px 10px;
+ border:1px solid #e6e8ec; border-radius:14px; background:#fafbfc !important;}
+#composer {align-items:center; gap:8px; padding:8px 10px; border:1px solid #d9dde5;
+ border-radius:16px; background:#fff !important; box-shadow:0 2px 8px #1822300a;}
+#composer:focus-within {border-color:#fb923c; box-shadow:0 0 0 3px #ffedd5;}
+#question {border:0 !important; box-shadow:none !important;}
+#question textarea {border:0 !important; box-shadow:none !important; resize:none;}
+#tts-toggle {min-width:44px !important; max-width:44px; height:44px; padding:0 !important;
+ border-radius:11px !important; font-size:19px;}
+#tts-toggle.primary {background:#fff7ed !important; color:#c2410c !important;
+ border-color:#fb923c !important;}
+#voice-recorder {width:100% !important; min-width:0 !important; max-width:none !important;}
+#voice-recorder .audio-container {min-height:52px !important;}
+#answer-audio {min-height:64px !important;}
+#answer-audio .audio-container,#answer-audio .waveform-container,
+#answer-audio [data-testid="waveform"] {min-height:52px !important; height:52px !important;}
+.context-hint {margin:2px 0 8px; color:#697586; font-size:12px; line-height:1.5;}
 #send {background:#ea580c !important; color:white !important; border:0; border-radius:12px;}
 #send:hover {background:#c2410c !important;}
 .quick {text-align:left; justify-content:flex-start; border-radius:12px !important;}
@@ -136,6 +159,12 @@ def build_demo(interaction):
         history.append({"role": "user", "content": pending})
         return pending, history, history, "", "Đang xử lý câu hỏi…"
 
+    def toggle_tts(enabled):
+        """Toggle Vietnamese answer speech and reflect its state in the composer."""
+        enabled = not bool(enabled)
+        return enabled, gr.update(value="🔊" if enabled else "🔇",
+                                  variant="primary" if enabled else "secondary")
+
     async def respond(text, transcript, speak, history):
         history = list(history or [])
         if not str(text or "").strip():
@@ -154,6 +183,10 @@ def build_demo(interaction):
         body_background_fill_dark="#f4f6f8",
         block_background_fill="#ffffff",
         block_background_fill_dark="#ffffff",
+        block_label_text_color="#ffffff",
+        block_label_text_color_dark="#ffffff",
+        block_title_text_color="#ffffff",
+        block_title_text_color_dark="#ffffff",
         input_background_fill="#ffffff",
         input_background_fill_dark="#ffffff",
         body_text_color="#202833",
@@ -177,30 +210,44 @@ def build_demo(interaction):
         state = gr.State({})
         history = gr.State([])
         pending_question = gr.State("")
+        tts_enabled = gr.State(False)
         with gr.Row(elem_id="workspace"):
             with gr.Column(scale=2, min_width=240, elem_id="sidebar"):
                 gr.HTML('<div class="brand">⚖ LandLaw <span>AI</span></div><p class="muted">Trợ lý pháp luật đất đai Việt Nam</p>')
                 clear = gr.Button("＋ Câu hỏi mới")
                 gr.Markdown("### Câu hỏi gợi ý")
                 suggestions = [gr.Button(text, elem_classes=["quick"]) for text in QUESTIONS]
-                with gr.Accordion("Hỏi bằng giọng nói", open=False):
-                    audio = gr.Audio(sources=["microphone", "upload"], type="filepath", label="Thu âm / tải lên (120 giây · 20 MB)")
-                    recognize = gr.Button("Chuyển giọng nói thành văn bản")
-                    original = gr.Textbox(label="Bản nhận dạng gốc", interactive=False)
-                gr.Markdown("Mỗi câu hỏi được xử lý độc lập. Khi hỏi tiếp, hãy nêu đầy đủ bối cảnh.")
-            with gr.Column(scale=6, min_width=320, elem_id="main-panel"):
+            with gr.Column(scale=8, min_width=320, elem_id="main-panel"):
                 gr.Markdown("### Trợ lý pháp luật đất đai\nHỏi đáp và đối chiếu dựa trên nguồn được truy xuất.")
                 chat_options = {"type": "messages"} if "type" in inspect.signature(gr.Chatbot.__init__).parameters else {}
                 if "show_copy_button" in inspect.signature(gr.Chatbot.__init__).parameters:
                     chat_options["show_copy_button"] = True
-                answer = gr.Chatbot(label="Hội thoại", height=440, elem_id="chat",
+                answer = gr.Chatbot(label="Hội thoại", height=320, elem_id="chat",
                                     placeholder=WELCOME,
                                     sanitize_html=True, **chat_options)
-                question = gr.Textbox(label="Câu hỏi của bạn", placeholder="Nhập câu hỏi hoặc kiểm tra, sửa nội dung vừa nhận dạng…", lines=3, elem_id="question")
-                speak = gr.Checkbox(value=False, label="Đọc câu trả lời — gửi nội dung tới dịch vụ Edge TTS trực tuyến")
-                send = gr.Button("Gửi câu hỏi →", variant="primary", elem_id="send")
+                playback = gr.Audio(
+                    label="Nghe câu trả lời",
+                    type="filepath",
+                    autoplay=True,
+                    elem_id="answer-audio",
+                )
+                gr.HTML('<p class="context-hint">Mỗi câu hỏi được xử lý độc lập. Khi hỏi tiếp, hãy nêu đầy đủ bối cảnh.</p>')
+                with gr.Row(elem_id="voice-strip"):
+                    audio = gr.Audio(
+                        sources=["microphone", "upload"], type="filepath",
+                        show_label=False, container=False,
+                        elem_id="voice-recorder",
+                    )
+                with gr.Row(elem_id="composer"):
+                    question = gr.Textbox(
+                        show_label=False, placeholder="Hỏi về quy định đất đai…",
+                        lines=1, max_lines=4, scale=10, elem_id="question",
+                    )
+                    tts_toggle = gr.Button("🔇", elem_id="tts-toggle", min_width=48)
+                    send = gr.Button("➜", variant="primary", min_width=56, elem_id="send")
+                with gr.Accordion("Chi tiết nhận dạng giọng nói", open=False):
+                    original = gr.Textbox(label="Bản nhận dạng gốc", interactive=False)
                 status = gr.Textbox(label="Trạng thái / thông báo", interactive=False)
-                playback = gr.Audio(label="Nghe câu trả lời", type="filepath")
             with gr.Column(scale=3, min_width=260, elem_id="sources-panel"):
                 gr.Markdown("### Nguồn pháp lý\nCăn cứ trích dẫn của câu trả lời gần nhất.")
                 sources = gr.HTML(EMPTY_SOURCES)
@@ -208,8 +255,19 @@ def build_demo(interaction):
                     details = gr.JSON(label="Evidence và citation")
                 with gr.Accordion("Thời gian xử lý", open=False):
                     timings = gr.JSON(label="Đơn vị ms · không tính thời gian sửa câu hỏi")
-        recognize.click(transcribe, audio, [question, original, state, status], concurrency_id="m9", concurrency_limit=1)
-        audio.change(lambda: ("", {}, ""), outputs=[original, state, status], concurrency_id="m9", concurrency_limit=1)
+        tts_toggle.click(toggle_tts, tts_enabled, [tts_enabled, tts_toggle], concurrency_id="m9", concurrency_limit=1)
+        audio.stop_recording(
+            transcribe, audio, [question, original, state, status],
+            concurrency_id="m9", concurrency_limit=1,
+        )
+        audio.upload(
+            transcribe, audio, [question, original, state, status],
+            concurrency_id="m9", concurrency_limit=1,
+        )
+        audio.clear(
+            lambda: ("", "", {}, ""), outputs=[question, original, state, status],
+            concurrency_id="m9", concurrency_limit=1,
+        )
         for button, text in zip(suggestions, QUESTIONS):
             button.click(lambda value=text: (value, "", {}), outputs=[question, original, state], concurrency_id="m9", concurrency_limit=1)
         for event in (send.click, question.submit):
@@ -219,7 +277,7 @@ def build_demo(interaction):
                 concurrency_id="m9", concurrency_limit=1,
             )
             queued.then(
-                respond, [pending_question, state, speak, history],
+                respond, [pending_question, state, tts_enabled, history],
                 [answer, history, playback, details, timings, status, sources],
                 concurrency_id="m9", concurrency_limit=1,
             )

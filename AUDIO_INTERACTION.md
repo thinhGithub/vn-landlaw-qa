@@ -19,7 +19,7 @@
   float16, tối đa 120 giây/20 MB; model được tải ở lần đầu và dùng GPU cùng Qwen.
 - TTS: Edge TTS, giọng `vi-VN-HoaiMyNeural`, timeout 45 giây. Cần Internet và gửi
   phần trả lời tới dịch vụ trực tuyến. Checkbox TTS mặc định tắt.
-- Notebook lưu audio ở `/content/m9_audio`; runtime Colab bị xóa thì audio cũng mất.
+- Notebook lưu audio ở `/tmp/m9_audio`; runtime Colab bị xóa thì audio cũng mất.
   Khi dùng API ngoài notebook, mặc định lưu tại `artifacts/audio/`; không tự xóa file.
 - Transcript được chuẩn hóa ở bước nhận dạng, sau đó người dùng xác nhận; câu hỏi đã
   xác nhận được chuyển nguyên vẹn tới RAG. Các số hiệu không rõ không được suy đoán.
