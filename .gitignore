@@ -47,3 +47,6 @@ huggingface_cache/
 
 huggingface_cache/
 desktop.ini
+
+.pytest_tmp*
+.pytest_cache/
