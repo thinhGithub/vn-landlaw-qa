@@ -107,11 +107,11 @@ class RAGAdapter:
         return result
 
 
-def load_colab_rag(project_root, model_name="Qwen/Qwen3-4B-Instruct-2507",
+def load_colab_rag(project_root, model_name="Qwen/Qwen3.5-4B",
                    strict_citations=True):
-    """Load saved indexes, CPU embeddings and NF4 Qwen on a CUDA runtime."""
+    """Load saved indexes, CPU embeddings and NF4 Qwen 3.5 on a CUDA runtime."""
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+    from transformers import AutoModelForMultimodalLM, AutoProcessor, BitsAndBytesConfig
     from landlaw_rag.retrieval import (
         BM25Index, BM25Retriever, VectorIndex, VectorRetriever, HybridConfig, HybridRetriever,
     )
@@ -124,8 +124,9 @@ def load_colab_rag(project_root, model_name="Qwen/Qwen3-4B-Instruct-2507",
     vector = VectorIndex.load(root / "indexes/faiss", device="cpu", load_encoder=True, chunks_path=chunks_path)
     retriever = HybridRetriever(BM25Retriever(bm25), VectorRetriever(vector),
                                HybridConfig(bm25_top_n=20, vector_top_n=20, final_top_k=6, rrf_k=60))
-    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
-    model = AutoModelForCausalLM.from_pretrained(
+    processor = AutoProcessor.from_pretrained(model_name, use_fast=True)
+    tokenizer = processor.tokenizer
+    model = AutoModelForMultimodalLM.from_pretrained(
         model_name, device_map="auto", torch_dtype=torch.float16,
         quantization_config=BitsAndBytesConfig(load_in_4bit=True,
             bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
@@ -137,14 +138,20 @@ def load_colab_rag(project_root, model_name="Qwen/Qwen3-4B-Instruct-2507",
 
     @torch.inference_mode()
     def generate(messages):
-        prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        inputs = tokenizer(prompt, return_tensors="pt", truncation=False).to(model.device)
+        inputs = processor.apply_chat_template(
+            messages,
+            tokenize=True,
+            add_generation_prompt=True,
+            enable_thinking=False,
+            return_dict=True,
+            return_tensors="pt",
+        ).to(model.device)
         count = inputs["input_ids"].shape[1]
         if count > 7000:
             raise ValueError("Prompt vượt 7000 tokens; giảm context_tokens.")
         output = model.generate(**inputs, max_new_tokens=512, do_sample=False,
                                 repetition_penalty=1.05, pad_token_id=tokenizer.eos_token_id)
-        return tokenizer.decode(output[0, count:], skip_special_tokens=True).strip()
+        return processor.decode(output[0, count:], skip_special_tokens=True).strip()
 
     return RAGAdapter(
         retriever, chunks, tokenizer, generate,
