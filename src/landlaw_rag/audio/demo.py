@@ -46,7 +46,7 @@ gradio-app .gradio-container,.gradio-container {box-sizing:border-box !important
 #chat {min-height:260px; border:1px solid #e6e8ec;
  border-radius:14px; background:#fafbfc !important; color:#202833; line-height:1.8; overflow-wrap:anywhere;}
 #chat .wrap,#chat .bubble-wrap,#chat .message-row {background:transparent !important;}
-#chat .message {color:#202833 !important; border:1px solid #e6e8ec !important; box-shadow:none !important;}
+#chat .message {color:#202833 !important; border:0 !important; box-shadow:none !important;}
 #chat .message.bot,#chat .message-row.bot .message {background:#fff !important;}
 #chat .message.user,#chat .message-row.user .message {background:#fff3e8 !important;}
 #chat [data-testid="block-label"],#chat [data-testid="block-info"],
@@ -140,7 +140,7 @@ def build_demo(interaction):
 
     async def transcribe(path):
         result = await asyncio.to_thread(interaction.transcribe, path)
-        return result["normalized_transcript"], result["raw_transcript"], result, "\n".join(result["warnings"])
+        return result["normalized_transcript"], result, "\n".join(result["warnings"])
 
     async def submit(text, transcript, speak):
         try:
@@ -245,8 +245,6 @@ def build_demo(interaction):
                     )
                     tts_toggle = gr.Button("🔇", elem_id="tts-toggle", min_width=48)
                     send = gr.Button("➜", variant="primary", min_width=56, elem_id="send")
-                with gr.Accordion("Chi tiết nhận dạng giọng nói", open=False):
-                    original = gr.Textbox(label="Bản nhận dạng gốc", interactive=False)
                 status = gr.Textbox(label="Trạng thái / thông báo", interactive=False)
             with gr.Column(scale=3, min_width=260, elem_id="sources-panel"):
                 gr.Markdown("### Nguồn pháp lý\nCăn cứ trích dẫn của câu trả lời gần nhất.")
@@ -257,19 +255,19 @@ def build_demo(interaction):
                     timings = gr.JSON(label="Đơn vị ms · không tính thời gian sửa câu hỏi")
         tts_toggle.click(toggle_tts, tts_enabled, [tts_enabled, tts_toggle], concurrency_id="m9", concurrency_limit=1)
         audio.stop_recording(
-            transcribe, audio, [question, original, state, status],
+            transcribe, audio, [question, state, status],
             concurrency_id="m9", concurrency_limit=1,
         )
         audio.upload(
-            transcribe, audio, [question, original, state, status],
+            transcribe, audio, [question, state, status],
             concurrency_id="m9", concurrency_limit=1,
         )
         audio.clear(
-            lambda: ("", "", {}, ""), outputs=[question, original, state, status],
+            lambda: ("", {}, ""), outputs=[question, state, status],
             concurrency_id="m9", concurrency_limit=1,
         )
         for button, text in zip(suggestions, QUESTIONS):
-            button.click(lambda value=text: (value, "", {}), outputs=[question, original, state], concurrency_id="m9", concurrency_limit=1)
+            button.click(lambda value=text: (value, {}), outputs=[question, state], concurrency_id="m9", concurrency_limit=1)
         for event in (send.click, question.submit):
             queued = event(
                 queue_user_message, [question, history],
@@ -281,7 +279,7 @@ def build_demo(interaction):
                 [answer, history, playback, details, timings, status, sources],
                 concurrency_id="m9", concurrency_limit=1,
             )
-        clear.click(lambda: ("", "", {}, [], None, {}, {}, "", None, EMPTY_SOURCES, [], ""),
-                    outputs=[question, original, state, answer, playback, details, timings, status, audio, sources, history, pending_question],
+        clear.click(lambda: ("", {}, [], None, {}, {}, "", None, EMPTY_SOURCES, [], ""),
+                    outputs=[question, state, answer, playback, details, timings, status, audio, sources, history, pending_question],
                     concurrency_id="m9", concurrency_limit=1)
     return demo.queue(default_concurrency_limit=1)
