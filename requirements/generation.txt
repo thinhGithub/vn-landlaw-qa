@@ -2,7 +2,7 @@
 # File này kế thừa retrieval vì RAG cần retriever hoàn chỉnh.
 -r retrieval.txt
 
-transformers
+transformers @ git+https://github.com/huggingface/transformers.git@main
 accelerate
 bitsandbytes
 torch
