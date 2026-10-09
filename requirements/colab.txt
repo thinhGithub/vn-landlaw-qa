@@ -1,0 +1,9 @@
+# Colab T4. Keep Colab's preinstalled CUDA-enabled torch; do not reinstall torch here.
+-r retrieval.txt
+transformers @ git+https://github.com/huggingface/transformers.git@main
+accelerate
+bitsandbytes
+edge-tts>=7,<8
+# Match Colab's hf-gradio/gradio-client 2.x and current Starlette 1.x packages.
+gradio>=6.16,<7
+pydantic>=2.12.5,<3

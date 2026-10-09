@@ -113,7 +113,8 @@ def load_colab_rag(project_root, model_name="Qwen/Qwen3.5-4B",
     import torch
     from transformers import AutoModelForMultimodalLM, AutoProcessor, BitsAndBytesConfig
     from landlaw_rag.retrieval import (
-        BM25Index, BM25Retriever, VectorIndex, VectorRetriever, HybridConfig, HybridRetriever,
+        BM25Index, BM25Retriever, VectorIndex, VectorRetriever, HybridConfig,
+        HybridRetriever, GraphRetriever,
     )
     if not torch.cuda.is_available():
         raise RuntimeError("Demo RAG cần Colab T4 GPU. Chọn Runtime > Change runtime type.")
@@ -122,8 +123,9 @@ def load_colab_rag(project_root, model_name="Qwen/Qwen3.5-4B",
     chunks = json.loads(chunks_path.read_text(encoding="utf-8"))
     bm25 = BM25Index.load(root / "indexes/bm25/bm25_index.json.gz")
     vector = VectorIndex.load(root / "indexes/faiss", device="cpu", load_encoder=True, chunks_path=chunks_path)
-    retriever = HybridRetriever(BM25Retriever(bm25), VectorRetriever(vector),
-                               HybridConfig(bm25_top_n=20, vector_top_n=20, final_top_k=6, rrf_k=60))
+    hybrid = HybridRetriever(BM25Retriever(bm25), VectorRetriever(vector),
+                             HybridConfig(bm25_top_n=20, vector_top_n=20, final_top_k=6, rrf_k=60))
+    retriever = GraphRetriever(hybrid, chunks)
     processor = AutoProcessor.from_pretrained(model_name, use_fast=True)
     tokenizer = processor.tokenizer
     model = AutoModelForMultimodalLM.from_pretrained(

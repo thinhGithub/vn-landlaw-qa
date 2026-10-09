@@ -14,10 +14,12 @@ from .hybrid import (
     metadata_year,
 )
 from .vector import VectorConfig, VectorIndex
+from .graph import GraphRetriever
 
 __all__ = [
     "BM25Config", "BM25Index", "tokenize_vi", "VectorConfig", "VectorIndex",
     "Retriever", "BM25Retriever", "VectorRetriever", "HybridConfig",
     "HybridRetriever", "extract_legal_references", "hybrid_search",
     "detect_version_intent", "metadata_year", "apply_version_boost",
+    "GraphRetriever",
 ]
