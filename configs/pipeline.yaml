@@ -12,6 +12,26 @@ retrieval:
   fusion: rrf
   rrf_k: 60
 
+graph:
+  seed_multiplier: 3
+  min_seed_k: 12
+  max_hops: 1
+  max_expanded_chunks: 24
+  max_neighbors_per_node: 8
+  hop_decay: 0.7
+  allowed_relations:
+    - same_clause
+    - same_article
+    - amends_article
+    - replaces_article
+    - references_article
+  relation_weights:
+    same_clause: 0.65
+    same_article: 0.35
+    amends_article: 0.75
+    replaces_article: 0.8
+    references_article: 0.5
+
 generation:
   load_in_4bit: true
   max_new_tokens: 768

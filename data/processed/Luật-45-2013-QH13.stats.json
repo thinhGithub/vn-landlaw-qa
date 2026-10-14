@@ -1,6 +1,6 @@
 {
-  "source_file": "D:\\Master\\HK1\\MayHocTienTien\\Project\\fianl_project\\data\\raw_doc\\Luật-45-2013-QH13.docx",
-  "output_file": "D:\\Master\\HK1\\MayHocTienTien\\Project\\fianl_project\\data\\processed\\Luật-45-2013-QH13.txt",
+  "source_file": "D:\\Master\\Ky 1\\May hoc & ung dung tien tien\\SEP\\vn-landlaw-qa\\data\\raw_doc\\Luật-45-2013-QH13.docx",
+  "output_file": "D:\\Master\\Ky 1\\May hoc & ung dung tien tien\\SEP\\vn-landlaw-qa\\data\\processed\\Luật-45-2013-QH13.txt",
   "sha256": "d2dac5cbb79491b2da744de9b650c31a091be006d3a5e63b33c5a254412d10a8",
   "paragraph_count": 1829,
   "empty_paragraph_count": 35,

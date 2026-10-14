@@ -111,10 +111,11 @@ def load_colab_rag(project_root, model_name="Qwen/Qwen3.5-4B",
                    strict_citations=True):
     """Load saved indexes, CPU embeddings and NF4 Qwen 3.5 on a CUDA runtime."""
     import torch
+    import yaml
     from transformers import AutoModelForMultimodalLM, AutoProcessor, BitsAndBytesConfig
     from landlaw_rag.retrieval import (
         BM25Index, BM25Retriever, VectorIndex, VectorRetriever, HybridConfig,
-        HybridRetriever, GraphRetriever,
+        HybridRetriever, GraphConfig, GraphRetriever,
     )
     if not torch.cuda.is_available():
         raise RuntimeError("Demo RAG cần Colab T4 GPU. Chọn Runtime > Change runtime type.")
@@ -125,7 +126,12 @@ def load_colab_rag(project_root, model_name="Qwen/Qwen3.5-4B",
     vector = VectorIndex.load(root / "indexes/faiss", device="cpu", load_encoder=True, chunks_path=chunks_path)
     hybrid = HybridRetriever(BM25Retriever(bm25), VectorRetriever(vector),
                              HybridConfig(bm25_top_n=20, vector_top_n=20, final_top_k=6, rrf_k=60))
-    retriever = GraphRetriever(hybrid, chunks)
+    pipeline_path = root / "configs/pipeline.yaml"
+    pipeline = yaml.safe_load(pipeline_path.read_text(encoding="utf-8")) if pipeline_path.exists() else {}
+    graph_options = dict(pipeline.get("graph", {}))
+    if "allowed_relations" in graph_options:
+        graph_options["allowed_relations"] = tuple(graph_options["allowed_relations"])
+    retriever = GraphRetriever(hybrid, chunks, GraphConfig(**graph_options))
     processor = AutoProcessor.from_pretrained(model_name, use_fast=True)
     tokenizer = processor.tokenizer
     model = AutoModelForMultimodalLM.from_pretrained(

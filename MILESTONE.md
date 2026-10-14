@@ -1,8 +1,9 @@
 # Milestones — Hệ thống Hybrid RAG pháp luật đất đai
 
 Tài liệu này theo dõi lộ trình phát triển hệ thống hỏi đáp và đối chiếu pháp
-luật đất đai Việt Nam. Phạm vi hiện tại tập trung vào Hybrid RAG, chưa bao gồm
-GraphRAG hoặc Multi-Agent.
+luật đất đai Việt Nam. Pipeline chính dùng Hybrid RAG, có thêm Graph-Augmented
+Retrieval theo cấu trúc pháp lý và thử nghiệm cạnh dẫn chiếu/sửa đổi; Multi-Agent
+chưa thuộc phạm vi.
 
 ## Tổng quan
 
@@ -17,7 +18,7 @@ GraphRAG hoặc Multi-Agent.
 | M7 | Citation & Source Validation | QA + validated legal citations | Hoàn thành |
 | M8 | Legal Comparison | Legal comparison with validated citations | Hoàn thành cơ bản |
 | M9 | Vietnamese Voice Interaction | Voice-enabled RAG pipeline | MVP đã triển khai; chờ chạy thực tế trên T4 |
-| M10 | Evaluation | Evaluation results + ablation tables + system metrics | Chưa bắt đầu |
+| M10 | Evaluation | Evaluation results + ablation tables + system metrics | Đang thực hiện (Graph RAG pilot) |
 | M11 | Web Demo | End-to-end multimodal Web Demo | Chưa bắt đầu |
 
 ---
@@ -466,6 +467,7 @@ Chi tiết được mô tả trong [`AUDIO_INTERACTION.md`](AUDIO_INTERACTION.md
 - BM25 Retrieval.
 - Vector Retrieval.
 - Hybrid Retrieval.
+- Hybrid Retrieval + Graph-Augmented Retrieval.
 
 ### Đầu vào
 
@@ -480,6 +482,12 @@ Chi tiết được mô tả trong [`AUDIO_INTERACTION.md`](AUDIO_INTERACTION.md
 - Cấu hình cố định của model/index/retrieval.
 
 ### Công việc
+
+- [x] Tạo pilot dataset và runner ablation Hybrid vs Hybrid + Graph; đánh giá
+  Recall@K, Precision@K, MRR@K và nDCG@K theo nhóm quan hệ.
+- [x] Thêm template chấm thủ công answer correctness và citation support.
+- [ ] Mở rộng tập nhãn và hoàn tất nghiệm thu chuyên gia; pilot chưa đủ để kết
+  luận chất lượng pháp lý.
 
 - [ ] Xây evaluation dataset theo nhiều nhóm câu hỏi:
   - keyword query,

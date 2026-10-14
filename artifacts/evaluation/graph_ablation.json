@@ -1,0 +1,1188 @@
+{
+  "schema_version": 1,
+  "top_k": 8,
+  "query_count": 8,
+  "systems": {
+    "hybrid": {
+      "recall@8": 0.8541666666666666,
+      "precision@8": 0.21875,
+      "mrr@8": 0.9166666666666666,
+      "ndcg@8": 0.7382076948187586
+    },
+    "hybrid_graph": {
+      "recall@8": 0.8541666666666666,
+      "precision@8": 0.21875,
+      "mrr@8": 0.9166666666666666,
+      "ndcg@8": 0.7535557804015024
+    },
+    "latency_ms": {
+      "hybrid": 67.88582500303164,
+      "hybrid_graph": 63.75146248319652
+    }
+  },
+  "by_relation_focus": {
+    "amends_article": {
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 0.7777777777777778,
+        "ndcg@8": 0.7504251395772701
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 0.7777777777777778,
+        "ndcg@8": 0.7504251395772701
+      },
+      "latency_ms": {
+        "hybrid": 61.836633287991084,
+        "hybrid_graph": 58.55476666086664
+      }
+    },
+    "references_article": {
+      "hybrid": {
+        "recall@8": 0.7083333333333334,
+        "precision@8": 0.1875,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.6942927061200521
+      },
+      "hybrid_graph": {
+        "recall@8": 0.7083333333333334,
+        "precision@8": 0.1875,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.6942927061200521
+      },
+      "latency_ms": {
+        "hybrid": 71.62785003311001,
+        "hybrid_graph": 66.57187498058192
+      }
+    },
+    "same_article": {
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8772153153380493
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 1.0
+      },
+      "latency_ms": {
+        "hybrid": 71.06530002783984,
+        "hybrid_graph": 68.05989996064454
+      }
+    }
+  },
+  "human_answer_and_citation_judgments": {
+    "reviewed_count": 0
+  },
+  "citation_source_metrics": {
+    "reviewed_answer_count": 0,
+    "gold_unit_citation_precision": null,
+    "gold_unit_citation_recall": null,
+    "note": "Overlap with labeled legal units; claim-level support still requires human review."
+  },
+  "cases": [
+    {
+      "question_id": "amendment_252",
+      "relation_focus": "amends_article",
+      "query": "Luật 43/2024 sửa đổi thời điểm có hiệu lực của Luật Đất đai 2024 như thế nào?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 0.3333333333333333,
+        "ndcg@8": 0.5249810332008933
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 0.3333333333333333,
+        "ndcg@8": 0.5249810332008933
+      },
+      "latency_ms": {
+        "hybrid": 57.66209994908422,
+        "hybrid_graph": 59.84250002074987
+      },
+      "hybrid_chunk_ids": [
+        "43-2024-qh15-930252b8483048be",
+        "43-2024-qh15-55117e1c188bf938",
+        "43-2024-qh15-e8607facac1ba4ad",
+        "43-2024-qh15-87bcc97045c7e381",
+        "43-2024-qh15-19c21a90d39490bb",
+        "31-2024-qh15-46d3f789d2e114c6",
+        "31-2024-qh15-dabab3e894f9068b",
+        "31-2024-qh15-c5f0949313e1e941"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "43-2024-qh15-930252b8483048be",
+        "43-2024-qh15-55117e1c188bf938",
+        "43-2024-qh15-e8607facac1ba4ad",
+        "43-2024-qh15-87bcc97045c7e381",
+        "43-2024-qh15-19c21a90d39490bb",
+        "31-2024-qh15-46d3f789d2e114c6",
+        "31-2024-qh15-dabab3e894f9068b",
+        "31-2024-qh15-c5f0949313e1e941"
+      ],
+      "graph_relations": [
+        "amends_article",
+        "hybrid_match",
+        "same_article"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "43-2024-qh15-e8607facac1ba4ad",
+          "target_chunk_id": "31-2024-qh15-46d3f789d2e114c6",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            244
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khoản 1 Điều 252"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-dabab3e894f9068b",
+          "target_chunk_id": "31-2024-qh15-46d3f789d2e114c6",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 252"
+          }
+        },
+        {
+          "source_chunk_id": "43-2024-qh15-e8607facac1ba4ad",
+          "target_chunk_id": "31-2024-qh15-dabab3e894f9068b",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            244
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khoản 1 Điều 252"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-46d3f789d2e114c6",
+          "target_chunk_id": "31-2024-qh15-dabab3e894f9068b",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 252"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "amendment_255",
+      "relation_focus": "amends_article",
+      "query": "Quy định chuyển tiếp về dự án giao đất, cho thuê đất không qua đấu giá được Luật 43/2024 sửa đổi ra sao?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8065735963827293
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8065735963827293
+      },
+      "latency_ms": {
+        "hybrid": 66.94169994443655,
+        "hybrid_graph": 59.146299958229065
+      },
+      "hybrid_chunk_ids": [
+        "31-2024-qh15-aeda9afb17685721",
+        "31-2024-qh15-d87dd651a54a39de",
+        "31-2024-qh15-1dfdd4b813bddae7",
+        "31-2024-qh15-0ec06d058eb89fbd",
+        "31-2024-qh15-d8ee906a32c7c4ae",
+        "31-2024-qh15-ff469f05633bb691",
+        "31-2024-qh15-29f8fe40a13249c8",
+        "43-2024-qh15-ba5c0b73e1ab0483"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "31-2024-qh15-aeda9afb17685721",
+        "31-2024-qh15-d87dd651a54a39de",
+        "31-2024-qh15-1dfdd4b813bddae7",
+        "31-2024-qh15-0ec06d058eb89fbd",
+        "31-2024-qh15-d8ee906a32c7c4ae",
+        "31-2024-qh15-ff469f05633bb691",
+        "31-2024-qh15-29f8fe40a13249c8",
+        "43-2024-qh15-ba5c0b73e1ab0483"
+      ],
+      "graph_relations": [
+        "hybrid_match",
+        "same_article"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "31-2024-qh15-d87dd651a54a39de",
+          "target_chunk_id": "31-2024-qh15-1dfdd4b813bddae7",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 124"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-d87dd651a54a39de",
+          "target_chunk_id": "31-2024-qh15-29f8fe40a13249c8",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 124"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-1dfdd4b813bddae7",
+          "target_chunk_id": "31-2024-qh15-29f8fe40a13249c8",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 124"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "amendment_260",
+      "relation_focus": "amends_article",
+      "query": "Luật 43/2024 sửa đổi quy định nào về phương án sử dụng đất đã được phê duyệt?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.9197207891481876
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.9197207891481876
+      },
+      "latency_ms": {
+        "hybrid": 60.90609997045249,
+        "hybrid_graph": 56.67550000362098
+      },
+      "hybrid_chunk_ids": [
+        "43-2024-qh15-6dba622165d061a2",
+        "31-2024-qh15-14727a09f6153494",
+        "31-2024-qh15-9f505630a98de66f",
+        "31-2024-qh15-e08431972529d369",
+        "31-2024-qh15-62da06ea3a590c73",
+        "31-2024-qh15-f2e05b3087452ee1",
+        "31-2024-qh15-d04a2814dee8bca9",
+        "43-2024-qh15-b0947ce1d32880be"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "43-2024-qh15-6dba622165d061a2",
+        "31-2024-qh15-14727a09f6153494",
+        "31-2024-qh15-9f505630a98de66f",
+        "31-2024-qh15-3e17d59009098715",
+        "31-2024-qh15-29bb7c7bf43f29c5",
+        "31-2024-qh15-26073d4d8c87d084",
+        "31-2024-qh15-1af0cf68c2cdce53",
+        "31-2024-qh15-14223c08fb627e19"
+      ],
+      "graph_relations": [
+        "amends_article",
+        "hybrid_match",
+        "same_article"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "43-2024-qh15-6dba622165d061a2",
+          "target_chunk_id": "31-2024-qh15-3e17d59009098715",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            252
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khổ đầu khoản 4 Điều 260"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-9f505630a98de66f",
+          "target_chunk_id": "31-2024-qh15-3e17d59009098715",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 260"
+          }
+        },
+        {
+          "source_chunk_id": "43-2024-qh15-6dba622165d061a2",
+          "target_chunk_id": "31-2024-qh15-29bb7c7bf43f29c5",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            252
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khổ đầu khoản 4 Điều 260"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-9f505630a98de66f",
+          "target_chunk_id": "31-2024-qh15-29bb7c7bf43f29c5",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 260"
+          }
+        },
+        {
+          "source_chunk_id": "43-2024-qh15-6dba622165d061a2",
+          "target_chunk_id": "31-2024-qh15-26073d4d8c87d084",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            252
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khổ đầu khoản 4 Điều 260"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-9f505630a98de66f",
+          "target_chunk_id": "31-2024-qh15-26073d4d8c87d084",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 260"
+          }
+        },
+        {
+          "source_chunk_id": "43-2024-qh15-6dba622165d061a2",
+          "target_chunk_id": "31-2024-qh15-1af0cf68c2cdce53",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            252
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khổ đầu khoản 4 Điều 260"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-9f505630a98de66f",
+          "target_chunk_id": "31-2024-qh15-1af0cf68c2cdce53",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 260"
+          }
+        },
+        {
+          "source_chunk_id": "43-2024-qh15-6dba622165d061a2",
+          "target_chunk_id": "31-2024-qh15-14223c08fb627e19",
+          "source_file": "Luật-43-2024-QH15.txt",
+          "source_span": [
+            211,
+            252
+          ],
+          "evidence_text": "Sửa đổi, bổ sung khổ đầu khoản 4 Điều 260"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-9f505630a98de66f",
+          "target_chunk_id": "31-2024-qh15-14223c08fb627e19",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 260"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "reference_land_price",
+      "relation_focus": "references_article",
+      "query": "Theo Nghị quyết 254, hồ sơ xác định giá đất cụ thể chưa có quyết định thì xử lý thế nào?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8175295903539445
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8175295903539445
+      },
+      "latency_ms": {
+        "hybrid": 59.94150007609278,
+        "hybrid_graph": 52.45630000717938
+      },
+      "hybrid_chunk_ids": [
+        "254-2025-qh15-df63e1ec519fc02a",
+        "31-2024-qh15-c67101e9574db6e3",
+        "254-2025-qh15-9092c66c1580b313",
+        "254-2025-qh15-e9dbd528513b768b",
+        "31-2024-qh15-cad48bae7bd3020f",
+        "31-2024-qh15-ee6dc21360644f14",
+        "31-2024-qh15-a9ecb784ccbbd95c",
+        "31-2024-qh15-769c1784eb6eb6fa"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "254-2025-qh15-df63e1ec519fc02a",
+        "31-2024-qh15-c67101e9574db6e3",
+        "254-2025-qh15-9092c66c1580b313",
+        "254-2025-qh15-e9dbd528513b768b",
+        "31-2024-qh15-cad48bae7bd3020f",
+        "31-2024-qh15-ee6dc21360644f14",
+        "31-2024-qh15-a9ecb784ccbbd95c",
+        "31-2024-qh15-769c1784eb6eb6fa"
+      ],
+      "graph_relations": [
+        "hybrid_match",
+        "references_article",
+        "same_article"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "254-2025-qh15-e9dbd528513b768b",
+          "target_chunk_id": "254-2025-qh15-df63e1ec519fc02a",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-df63e1ec519fc02a",
+          "target_chunk_id": "31-2024-qh15-a9ecb784ccbbd95c",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "source_span": [
+            213,
+            221
+          ],
+          "evidence_text": "Điều 160"
+        }
+      ]
+    },
+    {
+      "question_id": "reference_subdivision",
+      "relation_focus": "references_article",
+      "query": "Nghị quyết 254 quy định thế nào khi việc phân chia quyền sử dụng đất không đáp ứng điều kiện tách thửa?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8772153153380493
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8772153153380493
+      },
+      "latency_ms": {
+        "hybrid": 62.55190004594624,
+        "hybrid_graph": 55.81029993481934
+      },
+      "hybrid_chunk_ids": [
+        "31-2024-qh15-99005602c1ff48ce",
+        "31-2024-qh15-49045cdd97920d95",
+        "31-2024-qh15-959b5447e025381f",
+        "254-2025-qh15-f4c379bc7e74b32e",
+        "254-2025-qh15-ba5cbe0f407331ae",
+        "254-2025-qh15-96f09ccceb635888",
+        "31-2024-qh15-6a120d658a6b02fe",
+        "31-2024-qh15-98eb7138863038e1"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "31-2024-qh15-99005602c1ff48ce",
+        "31-2024-qh15-49045cdd97920d95",
+        "31-2024-qh15-959b5447e025381f",
+        "254-2025-qh15-f4c379bc7e74b32e",
+        "254-2025-qh15-ba5cbe0f407331ae",
+        "254-2025-qh15-96f09ccceb635888",
+        "31-2024-qh15-6a120d658a6b02fe",
+        "31-2024-qh15-98eb7138863038e1"
+      ],
+      "graph_relations": [
+        "hybrid_match",
+        "references_article",
+        "same_article",
+        "same_clause"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "target_chunk_id": "31-2024-qh15-99005602c1ff48ce",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-98eb7138863038e1",
+          "target_chunk_id": "31-2024-qh15-99005602c1ff48ce",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-99005602c1ff48ce",
+          "target_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-99005602c1ff48ce",
+          "target_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-959b5447e025381f",
+          "target_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f4c379bc7e74b32e",
+          "target_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "source_span": [
+            375,
+            383
+          ],
+          "evidence_text": "Điều 220"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-98eb7138863038e1",
+          "target_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-98eb7138863038e1",
+          "target_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f4c379bc7e74b32e",
+          "target_chunk_id": "31-2024-qh15-959b5447e025381f",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "source_span": [
+            375,
+            383
+          ],
+          "evidence_text": "Điều 220"
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-5e0913bb0d380ace",
+          "target_chunk_id": "31-2024-qh15-6a120d658a6b02fe",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 45",
+            "clause": "khoản 3"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-eef7f2d3938d8fe0",
+          "target_chunk_id": "31-2024-qh15-6a120d658a6b02fe",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 45",
+            "clause": "khoản 3"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-99005602c1ff48ce",
+          "target_chunk_id": "31-2024-qh15-98eb7138863038e1",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "31-2024-qh15-49045cdd97920d95",
+          "target_chunk_id": "31-2024-qh15-98eb7138863038e1",
+          "source_file": "Luật-31-2024-QH15.txt",
+          "basis": {
+            "document_id": "31-2024-qh15",
+            "article": "điều 220",
+            "clause": "khoản 2"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "reference_legacy_extension",
+      "relation_focus": "references_article",
+      "query": "Theo Điều 11 Nghị quyết số 254/2025/QH15, trường hợp đã được gia hạn theo Điều 64 Luật Đất đai số 45/2013/QH13 được xử lý thế nào?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 0.5,
+        "precision@8": 0.125,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.6131471927654584
+      },
+      "hybrid_graph": {
+        "recall@8": 0.5,
+        "precision@8": 0.125,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.6131471927654584
+      },
+      "latency_ms": {
+        "hybrid": 83.67540000472218,
+        "hybrid_graph": 77.86930003203452
+      },
+      "hybrid_chunk_ids": [
+        "254-2025-qh15-346a3f26e43e905b",
+        "254-2025-qh15-07a52f7683288c51",
+        "254-2025-qh15-ba5cbe0f407331ae",
+        "254-2025-qh15-983c281d88d0fa07",
+        "254-2025-qh15-977ce7f77445faf0",
+        "254-2025-qh15-2c3205c2e4f01a81",
+        "254-2025-qh15-b7a41e73d93b8f7f",
+        "254-2025-qh15-396ea9730f5ba23e"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "254-2025-qh15-346a3f26e43e905b",
+        "254-2025-qh15-07a52f7683288c51",
+        "254-2025-qh15-ba5cbe0f407331ae",
+        "254-2025-qh15-983c281d88d0fa07",
+        "254-2025-qh15-977ce7f77445faf0",
+        "254-2025-qh15-2c3205c2e4f01a81",
+        "254-2025-qh15-b7a41e73d93b8f7f",
+        "254-2025-qh15-396ea9730f5ba23e"
+      ],
+      "graph_relations": [
+        "hybrid_match",
+        "same_article",
+        "same_clause"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "254-2025-qh15-983c281d88d0fa07",
+          "target_chunk_id": "254-2025-qh15-346a3f26e43e905b",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-977ce7f77445faf0",
+          "target_chunk_id": "254-2025-qh15-346a3f26e43e905b",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "target_chunk_id": "254-2025-qh15-346a3f26e43e905b",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-983c281d88d0fa07",
+          "target_chunk_id": "254-2025-qh15-07a52f7683288c51",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-977ce7f77445faf0",
+          "target_chunk_id": "254-2025-qh15-07a52f7683288c51",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "target_chunk_id": "254-2025-qh15-07a52f7683288c51",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "target_chunk_id": "254-2025-qh15-ba5cbe0f407331ae",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-ba5cbe0f407331ae",
+          "target_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-983c281d88d0fa07",
+          "target_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-977ce7f77445faf0",
+          "target_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-ba5cbe0f407331ae",
+          "target_chunk_id": "254-2025-qh15-396ea9730f5ba23e",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-983c281d88d0fa07",
+          "target_chunk_id": "254-2025-qh15-396ea9730f5ba23e",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-977ce7f77445faf0",
+          "target_chunk_id": "254-2025-qh15-396ea9730f5ba23e",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-2c3205c2e4f01a81",
+          "target_chunk_id": "254-2025-qh15-396ea9730f5ba23e",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 11",
+            "clause": "khoản 2"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "reference_recovery",
+      "relation_focus": "references_article",
+      "query": "Điều 3 Nghị quyết số 254/2025/QH15 bổ sung những trường hợp thu hồi đất nào theo Điều 78 và Điều 79 của Luật Đất đai?",
+      "gold_unit_count": 3,
+      "hybrid": {
+        "recall@8": 0.3333333333333333,
+        "precision@8": 0.125,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.46927872602275644
+      },
+      "hybrid_graph": {
+        "recall@8": 0.3333333333333333,
+        "precision@8": 0.125,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.46927872602275644
+      },
+      "latency_ms": {
+        "hybrid": 80.34260000567883,
+        "hybrid_graph": 80.15159994829446
+      },
+      "hybrid_chunk_ids": [
+        "254-2025-qh15-f8ffa43b31203702",
+        "254-2025-qh15-4adea04ce1c9dfee",
+        "254-2025-qh15-2099b463d313d3cb",
+        "254-2025-qh15-fee2713b0c3beecd",
+        "254-2025-qh15-ea1b4725ef39c56c",
+        "254-2025-qh15-0abdfda9ea06509f",
+        "254-2025-qh15-7a9f3aee3fff040f",
+        "254-2025-qh15-d22605454c20ffaa"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "254-2025-qh15-f8ffa43b31203702",
+        "254-2025-qh15-4adea04ce1c9dfee",
+        "254-2025-qh15-2099b463d313d3cb",
+        "254-2025-qh15-fee2713b0c3beecd",
+        "254-2025-qh15-ea1b4725ef39c56c",
+        "254-2025-qh15-0abdfda9ea06509f",
+        "254-2025-qh15-7a9f3aee3fff040f",
+        "254-2025-qh15-d22605454c20ffaa"
+      ],
+      "graph_relations": [
+        "hybrid_match",
+        "same_article",
+        "same_clause"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "target_chunk_id": "254-2025-qh15-f8ffa43b31203702",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-ea1b4725ef39c56c",
+          "target_chunk_id": "254-2025-qh15-4adea04ce1c9dfee",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 13"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-d22605454c20ffaa",
+          "target_chunk_id": "254-2025-qh15-4adea04ce1c9dfee",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 13"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f8ffa43b31203702",
+          "target_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 2"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-4adea04ce1c9dfee",
+          "target_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-ea1b4725ef39c56c",
+          "target_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-0abdfda9ea06509f",
+          "target_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-d22605454c20ffaa",
+          "target_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-7a9f3aee3fff040f",
+          "target_chunk_id": "254-2025-qh15-fee2713b0c3beecd",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 10"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-4adea04ce1c9dfee",
+          "target_chunk_id": "254-2025-qh15-ea1b4725ef39c56c",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 13"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-d22605454c20ffaa",
+          "target_chunk_id": "254-2025-qh15-ea1b4725ef39c56c",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 13"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-4adea04ce1c9dfee",
+          "target_chunk_id": "254-2025-qh15-0abdfda9ea06509f",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-2099b463d313d3cb",
+          "target_chunk_id": "254-2025-qh15-0abdfda9ea06509f",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-ea1b4725ef39c56c",
+          "target_chunk_id": "254-2025-qh15-0abdfda9ea06509f",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-d22605454c20ffaa",
+          "target_chunk_id": "254-2025-qh15-0abdfda9ea06509f",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-fee2713b0c3beecd",
+          "target_chunk_id": "254-2025-qh15-7a9f3aee3fff040f",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 10"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-4adea04ce1c9dfee",
+          "target_chunk_id": "254-2025-qh15-d22605454c20ffaa",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 13"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-ea1b4725ef39c56c",
+          "target_chunk_id": "254-2025-qh15-d22605454c20ffaa",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 3",
+            "clause": "khoản 13"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "same_article_price",
+      "relation_focus": "same_article",
+      "query": "Theo Khoản 4 Điều 7 Nghị quyết 254, các khoản khác của Điều 7 quy định gì về bảng giá đất?",
+      "gold_unit_count": 2,
+      "hybrid": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 0.8772153153380493
+      },
+      "hybrid_graph": {
+        "recall@8": 1.0,
+        "precision@8": 0.25,
+        "mrr@8": 1.0,
+        "ndcg@8": 1.0
+      },
+      "latency_ms": {
+        "hybrid": 71.06530002783984,
+        "hybrid_graph": 68.05989996064454
+      },
+      "hybrid_chunk_ids": [
+        "254-2025-qh15-df63e1ec519fc02a",
+        "31-2024-qh15-73ea3f7515a04bf0",
+        "45-2013-qh13-2f54b042c16f8b07",
+        "254-2025-qh15-f042e2a8bf5ebabc",
+        "254-2025-qh15-dfb771af58fb38e5",
+        "254-2025-qh15-e9dbd528513b768b",
+        "254-2025-qh15-0b4cb7f67f64f9d6",
+        "254-2025-qh15-98beea28df3fb85d"
+      ],
+      "hybrid_graph_chunk_ids": [
+        "254-2025-qh15-df63e1ec519fc02a",
+        "254-2025-qh15-f042e2a8bf5ebabc",
+        "254-2025-qh15-dfb771af58fb38e5",
+        "254-2025-qh15-e9dbd528513b768b",
+        "254-2025-qh15-0b4cb7f67f64f9d6",
+        "254-2025-qh15-98beea28df3fb85d",
+        "254-2025-qh15-ee2079ef915c5359",
+        "254-2025-qh15-8ade9c9b780b2f28"
+      ],
+      "graph_relations": [
+        "hybrid_match",
+        "same_article"
+      ],
+      "graph_provenance": [
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-df63e1ec519fc02a",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-dfb771af58fb38e5",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-e9dbd528513b768b",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-0b4cb7f67f64f9d6",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-98beea28df3fb85d",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-ee2079ef915c5359",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        },
+        {
+          "source_chunk_id": "254-2025-qh15-f042e2a8bf5ebabc",
+          "target_chunk_id": "254-2025-qh15-8ade9c9b780b2f28",
+          "source_file": "Nghị-quyết-254-2025-QH15.txt",
+          "basis": {
+            "document_id": "254-2025-qh15",
+            "article": "điều 7"
+          }
+        }
+      ]
+    }
+  ],
+  "configuration": {
+    "embedding_model": "intfloat/multilingual-e5-base",
+    "hybrid": {
+      "bm25_top_n": 20,
+      "vector_top_n": 20,
+      "final_top_k": 8,
+      "rrf_k": 60,
+      "explicit_version_boost": 0.02,
+      "comparison_version_boost": 0.01,
+      "current_version_boost": 0.005
+    },
+    "graph": {
+      "seed_multiplier": 3,
+      "min_seed_k": 12,
+      "max_hops": 1,
+      "max_expanded_chunks": 24,
+      "max_neighbors_per_node": 8,
+      "hop_decay": 0.7,
+      "relation_weights": {
+        "same_clause": 0.65,
+        "same_article": 0.35,
+        "amends_article": 0.75,
+        "replaces_article": 0.8,
+        "references_article": 0.5
+      },
+      "allowed_relations": [
+        "same_clause",
+        "same_article",
+        "amends_article",
+        "replaces_article",
+        "references_article"
+      ]
+    },
+    "graph_build_ms": 131.92459999118,
+    "chunks_sha256": "31498e6c638756d99055628b6aa3356f2c6b814a861c3218b491153bf8cdae19"
+  }
+}

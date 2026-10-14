@@ -212,7 +212,8 @@ Xem [AUDIO_INTERACTION.md](AUDIO_INTERACTION.md) cho giới hạn MVP và kiểm
 
 ```text
 DOCX -> parse -> normalize -> adaptive chunking -> BM25 + FAISS
-     -> hybrid retrieval (RRF) -> version isolation -> context expansion
+     -> hybrid retrieval (RRF) -> legal graph expansion -> version isolation
+     -> context expansion
      -> grounded prompt -> local LLM -> validated citations
 ```
 
@@ -220,3 +221,9 @@ M1–M7 đã hoàn thành. M8 Legal Comparison đã hoàn thành cơ bản với
 cô lập evidence theo phiên bản, structured comparison prompt và validated citations;
 M9 bổ sung giao tiếp giọng nói tiếng Việt. Đánh giá định lượng trên tập câu hỏi lớn
 hơn thuộc phạm vi M10; Web Demo end-to-end thuộc M11.
+
+Graph-augmented retrieval hỗ trợ mở rộng một bước theo cùng Điều/Khoản, sửa đổi
+và dẫn chiếu có provenance. Cấu hình nằm trong `configs/pipeline.yaml`; xem
+`GRAPH_RAG.md` để chạy ablation Hybrid so với Hybrid + Graph. Có thể chạy retrieval
+evaluation và thử answer/citation trên Colab bằng
+[`10_graph_rag_colab.ipynb`](10_graph_rag_colab.ipynb).
